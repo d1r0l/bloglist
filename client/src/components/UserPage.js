@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux'
+import { Link as RouterLink, useParams } from 'react-router-dom'
 import {
   Card,
   CardActionArea,
@@ -5,8 +7,6 @@ import {
   Grid,
   Typography
 } from '@mui/material'
-import { useSelector } from 'react-redux'
-import { Link as RouterLink, useParams } from 'react-router-dom'
 
 const UserPage = () => {
   const users = useSelector(state => state.users)

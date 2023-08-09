@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { initializeBlogs } from './reducers/blogsReducer'
 import { initializeActiveUser } from './reducers/activeUserReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
+import SignupForm from './components/SignupForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import Users from './components/Users'
@@ -15,6 +16,7 @@ import BlogPage from './components/BlogPage'
 import NavMenu from './components/NavMenu'
 import { Box, Container, Grid } from '@mui/material'
 import logo from './img/logo.png'
+import NotFound from './components/NotFound'
 
 const App = () => {
   const activeUser = useSelector(state => state.activeUser)
@@ -67,11 +69,19 @@ const App = () => {
               <Route path='/' element={<BlogList />} />
               <Route path='users' element={<Users />} />
               <Route path='users/:userId' element={<UserPage />} />
+              <Route path='blogs' element={<Navigate to='/' />} />
               <Route path='blogs/:blogId' element={<BlogPage />} />
+              <Route path='*' element={<NotFound />} />
             </Routes>
           </div>
         ) : (
-          <LoginForm />
+          <div>
+            <Routes>
+              <Route path='/signup' element={<SignupForm />} />
+              <Route path='/reset' element={<Users />} />
+              <Route path='*' element={<LoginForm />} />
+            </Routes>
+          </div>
         )}
       </BrowserRouter>
     </Container>

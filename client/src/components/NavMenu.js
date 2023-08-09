@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from '../reducers/activeUserReducer'
 import { Grid, Button, Stack, Typography } from '@mui/material'
@@ -8,7 +8,13 @@ const NavMenu = () => {
 
   const dispatch = useDispatch()
   const location = useLocation()
+  const navigate = useNavigate()
   const pathname = location.pathname
+
+  const handleLogout = () => {
+    dispatch(logoutUser())
+    navigate('/login')
+  }
 
   return (
     <Grid
@@ -58,7 +64,7 @@ const NavMenu = () => {
               type='button'
               variant='contained'
               sx={{ width: 90 }}
-              onClick={() => dispatch(logoutUser())}
+              onClick={handleLogout}
             >
               logout
             </Button>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../reducers/activeUserReducer'
-import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
   Avatar,
   Box,
@@ -12,16 +12,15 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import { PersonOutline } from '@mui/icons-material'
+import { PersonAddAlt } from '@mui/icons-material'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
+  const [name, setName] = useState('')
   const [password, setPassword] = useState('')
-
+  const [email, setEmail] = useState('')
+  const [passwordConfirm, setPasswordConfirm] = useState('')
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const currentPath = location.pathname
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -31,27 +30,28 @@ const LoginForm = () => {
     }
     setPassword('')
     setUsername('')
+    setName('')
+    setEmail('')
+    setPasswordConfirm('')
     dispatch(loginUser(credentials))
-    if (currentPath === '/login') {
-      navigate('/')
-    }
+    useNavigate('/login')
   }
 
   return (
     <Container component='main' maxWidth='xs'>
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 1,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <PersonOutline />
+          <PersonAddAlt />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign In
+          Sign Up
         </Typography>
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -68,6 +68,30 @@ const LoginForm = () => {
             autoFocus
           />
           <TextField
+            id='input-name'
+            type='text'
+            name='name'
+            value={name}
+            onChange={({ target }) => setName(target.value)}
+            label='Name'
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+          />
+          <TextField
+            id='input-email'
+            type='email'
+            name='email'
+            value={email}
+            onChange={({ target }) => setEmail(target.value)}
+            label='Email'
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+          />
+          <TextField
             id='input-password'
             type='password'
             name='password'
@@ -79,21 +103,30 @@ const LoginForm = () => {
             required
             fullWidth
           />
+          <TextField
+            id='input-password-confirm'
+            type='password'
+            name='password-confirm'
+            value={passwordConfirm}
+            label='Confirm Password'
+            variant='outlined'
+            margin='normal'
+            onChange={({ target }) => setPasswordConfirm(target.value)}
+            required
+            fullWidth
+          />
           <Button
-            id='button-login'
+            id='button-signup'
             type='submit'
             variant='contained'
             fullWidth
             sx={{ mt: 3, mb: 2 }}
           >
-            login
+            Sign Up
           </Button>
-          <Stack direction='row' justifyContent='space-between'>
-            <Link component={RouterLink} to='/reset' variant='body2'>
-              Forgot password?
-            </Link>
-            <Link component={RouterLink} to='/signup' variant='body2'>
-              Don&apos;t have an account? Sign Up
+          <Stack direction='row' justifyContent='center'>
+            <Link component={RouterLink} to='/login' variant='body2'>
+              Already have an account? Sign In
             </Link>
           </Stack>
         </Box>

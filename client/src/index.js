@@ -1,15 +1,15 @@
-import '@fontsource/roboto/400.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { Provider } from 'react-redux'
 import store from './store'
+import { CssBaseline } from '@mui/material'
 import {
   createTheme,
   responsiveFontSizes,
   ThemeProvider
 } from '@mui/material/styles'
-import { CssBaseline } from '@mui/material'
+import '@fontsource/roboto/400.css'
 
 let theme = createTheme({
   components: {
