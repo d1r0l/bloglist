@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { loginUser } from '../reducers/activeUserReducer'
+// eslint-disable-next-line no-unused-vars
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
   Avatar,
@@ -12,29 +12,56 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import { PersonAddAlt } from '@mui/icons-material'
+import { PersonAdd } from '@mui/icons-material'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [name, setName] = useState('')
-  const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
+  const [passwordMatch, setPasswordMatch] = useState(true)
+  const [formFilledProperly, setFormFilledProperly] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
+
+  // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (password === passwordConfirm) {
+      setPasswordMatch(true)
+    } else {
+      setPasswordMatch(false)
+    }
+    if (
+      username.length >= 3 &&
+      name.length >= 3 &&
+      email.match(/.+@.+\..+/) &&
+      password.length >= 8 &&
+      passwordConfirm.length >= 8 &&
+      passwordMatch
+    ) {
+      setFormFilledProperly(true)
+    }
+  }, [username, name, email, password, passwordConfirm])
 
   const handleSubmit = event => {
     event.preventDefault()
-    const credentials = {
-      username: username,
-      password: password
+    if (formFilledProperly) {
+      console.log('Form submitted')
+      setSubmitError(false)
+      const submitSuccessful = dispatch(null)
+      if (submitSuccessful) {
+        setUsername('')
+        setName('')
+        setPassword('')
+        setEmail('')
+        setPasswordConfirm('')
+        useNavigate('/login')
+      }
+    } else {
+      setSubmitError(true)
     }
-    setPassword('')
-    setUsername('')
-    setName('')
-    setEmail('')
-    setPasswordConfirm('')
-    dispatch(loginUser(credentials))
-    useNavigate('/login')
   }
 
   return (
@@ -48,7 +75,7 @@ const LoginForm = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <PersonAddAlt />
+          <PersonAdd />
         </Avatar>
         <Typography component='h1' variant='h5'>
           Sign Up
@@ -66,6 +93,14 @@ const LoginForm = () => {
             required
             fullWidth
             autoFocus
+            {...(username.length > 0 &&
+              username.length < 3 && {
+                error: true,
+                helperText: 'Username must be at least 3 characters'
+              })}
+            {...(submitError && username.length === 0
+              ? { error: true, helperText: 'Please enter a username' }
+              : {})}
           />
           <TextField
             id='input-name'
@@ -78,6 +113,14 @@ const LoginForm = () => {
             margin='normal'
             required
             fullWidth
+            {...(name.length > 0 &&
+              name.length < 3 && {
+                error: true,
+                helperText: 'Name must be at least 3 characters'
+              })}
+            {...(submitError && name.length === 0
+              ? { error: true, helperText: 'Please enter your name' }
+              : {})}
           />
           <TextField
             id='input-email'
@@ -90,6 +133,12 @@ const LoginForm = () => {
             margin='normal'
             required
             fullWidth
+            {...(submitError && email.length === 0
+              ? { error: true, helperText: 'Please enter an email address' }
+              : {})}
+            {...(email.length > 0 && !email.match(/.+@.+\..+/)
+              ? { error: true, helperText: 'Email address must be valid' }
+              : {})}
           />
           <TextField
             id='input-password'
@@ -102,6 +151,15 @@ const LoginForm = () => {
             onChange={({ target }) => setPassword(target.value)}
             required
             fullWidth
+            {...(submitError && password.length === 0
+              ? { error: true, helperText: 'Please enter a password' }
+              : {})}
+            {...(password.length > 0 && password.length < 8
+              ? {
+                  error: true,
+                  helperText: 'Password must be at least 8 characters'
+                }
+              : {})}
           />
           <TextField
             id='input-password-confirm'
@@ -113,6 +171,12 @@ const LoginForm = () => {
             margin='normal'
             onChange={({ target }) => setPasswordConfirm(target.value)}
             required
+            {...(!passwordMatch && passwordConfirm.length > 0
+              ? { error: true, helperText: 'Passwords do not match' }
+              : {})}
+            {...(submitError && passwordConfirm.length === 0
+              ? { error: true, helperText: 'Please confirm your password' }
+              : {})}
             fullWidth
           />
           <Button

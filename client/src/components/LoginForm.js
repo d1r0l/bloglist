@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../reducers/activeUserReducer'
 import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom'
@@ -12,28 +12,37 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import { PersonOutline } from '@mui/icons-material'
+import { Person } from '@mui/icons-material'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
   const currentPath = location.pathname
 
-  const handleSubmit = event => {
+  useEffect(() => {
+    setLoginError(false)
+  }, [username, password])
+
+  const handleSubmit = async event => {
     event.preventDefault()
     const credentials = {
       username: username,
       password: password
     }
-    setPassword('')
-    setUsername('')
-    dispatch(loginUser(credentials))
-    if (currentPath === '/login') {
-      navigate('/')
+    const loginSuccessful = await dispatch(loginUser(credentials))
+    if (loginSuccessful) {
+      setPassword('')
+      setUsername('')
+      if (currentPath === '/login') {
+        navigate('/')
+      }
+    } else {
+      setLoginError(true)
     }
   }
 
@@ -48,7 +57,7 @@ const LoginForm = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <PersonOutline />
+          <Person />
         </Avatar>
         <Typography component='h1' variant='h5'>
           Sign In
@@ -66,6 +75,7 @@ const LoginForm = () => {
             required
             fullWidth
             autoFocus
+            {...(loginError ? { error: true } : {})}
           />
           <TextField
             id='input-password'
@@ -78,7 +88,13 @@ const LoginForm = () => {
             onChange={({ target }) => setPassword(target.value)}
             required
             fullWidth
+            {...(loginError ? { error: true } : {})}
           />
+          {loginError && (
+            <Typography variant='body2' color='error' align='center'>
+              Incorrect username or password
+            </Typography>
+          )}
           <Button
             id='button-login'
             type='submit'

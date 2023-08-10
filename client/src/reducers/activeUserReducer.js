@@ -39,8 +39,10 @@ export const loginUser = credentials => {
       )
       dispatch(setActiveUser(loggedUser))
       dispatch(makeNotification({ text: 'login successful', color: 'green' }))
+      return true
     } else {
       dispatch(makeNotification({ text: 'wrong credentials', color: 'red' }))
+      return false
     }
   }
 }

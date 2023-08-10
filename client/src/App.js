@@ -14,6 +14,7 @@ import Users from './components/Users'
 import UserPage from './components/UserPage'
 import BlogPage from './components/BlogPage'
 import NavMenu from './components/NavMenu'
+import PassResetForm from './components/PassResetForm'
 import { Box, Container, Grid } from '@mui/material'
 import logo from './img/logo.png'
 import NotFound from './components/NotFound'
@@ -78,7 +79,7 @@ const App = () => {
           <div>
             <Routes>
               <Route path='/signup' element={<SignupForm />} />
-              <Route path='/reset' element={<Users />} />
+              <Route path='/reset' element={<PassResetForm />} />
               <Route path='*' element={<LoginForm />} />
             </Routes>
           </div>
