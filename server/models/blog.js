@@ -1,9 +1,13 @@
 const mongoose = require('mongoose')
+require('mongoose-type-url')
 
 const blogSchema = new mongoose.Schema({
   title: { type: String, required: true },
   author: String,
-  url: { type: String, required: true },
+  url: {
+    work: { type: mongoose.SchemaTypes.Url, required: true, unique: true },
+    profile: { type: mongoose.SchemaTypes.Url, required: true, unique: true }
+  },
   likes: { type: Number, default: 0 },
   user: {
     type: mongoose.Schema.Types.ObjectId,
