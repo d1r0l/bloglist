@@ -72,7 +72,8 @@ const App = () => {
               <Route path='users/:userId' element={<UserPage />} />
               <Route path='blogs' element={<Navigate to='/' />} />
               <Route path='blogs/:blogId' element={<BlogPage />} />
-              <Route path='*' element={<NotFound />} />
+              <Route path='/notfound' element={<NotFound />} />
+              <Route path='*' element={<Navigate to='/notfound' />} />
             </Routes>
           </div>
         ) : (
