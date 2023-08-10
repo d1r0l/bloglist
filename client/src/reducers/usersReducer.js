@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import { createSlice } from '@reduxjs/toolkit'
 import usersService from '../services/users'
+import { makeNotification } from './notificationReducer'
 // import { makeNotification } from './notificationReducer'
 
 const initialState = []
@@ -70,6 +71,24 @@ export const initializeUsers = () => {
   return async dispatch => {
     const fetchedUsers = await usersService.getAll()
     dispatch(setUsers(fetchedUsers))
+  }
+}
+
+export const createUser = newUser => {
+  return async dispatch => {
+    try {
+      const createdUser = await usersService.createNew(newUser)
+      dispatch(appendUser(createdUser))
+      dispatch(
+        makeNotification({ text: 'User created successfuly', color: 'green' })
+      )
+      return true
+    } catch (error) {
+      dispatch(
+        makeNotification({ text: error.response.data.error, color: 'red' })
+      )
+      return false
+    }
   }
 }
 

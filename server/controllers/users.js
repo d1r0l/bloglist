@@ -13,7 +13,7 @@ usersRouter.get('/', async (request, response) => {
 })
 
 usersRouter.post('/', async (request, response) => {
-  const { username, password, name } = request.body
+  const { username, password, name, email } = request.body
   if (!password) {
     response
       .status(400)
@@ -30,7 +30,8 @@ usersRouter.post('/', async (request, response) => {
       const user = new User({
         username: username,
         passwordHash: passwordHash,
-        name: name
+        name: name,
+        email: email
       })
       const savedUser = await user.save()
       response.status(201).json(savedUser)

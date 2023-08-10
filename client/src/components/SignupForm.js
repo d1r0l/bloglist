@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-// eslint-disable-next-line no-unused-vars
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
   Avatar,
@@ -13,6 +12,7 @@ import {
   Typography
 } from '@mui/material'
 import { PersonAdd } from '@mui/icons-material'
+import { createUser } from '../reducers/usersReducer'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -24,8 +24,8 @@ const LoginForm = () => {
   const [formFilledProperly, setFormFilledProperly] = useState(false)
   const [submitError, setSubmitError] = useState(false)
 
-  // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (password === passwordConfirm) {
@@ -39,25 +39,33 @@ const LoginForm = () => {
       email.match(/.+@.+\..+/) &&
       password.length >= 8 &&
       passwordConfirm.length >= 8 &&
-      passwordMatch
+      password === passwordConfirm
     ) {
       setFormFilledProperly(true)
     }
   }, [username, name, email, password, passwordConfirm])
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
+    console.log('handleSubmit')
     event.preventDefault()
+    console.log('formFilledProperly: ', formFilledProperly)
     if (formFilledProperly) {
-      console.log('Form submitted')
       setSubmitError(false)
-      const submitSuccessful = dispatch(null)
+      const newUser = {
+        username: username,
+        password: password,
+        name: name,
+        email: email
+      }
+      const submitSuccessful = await dispatch(createUser(newUser))
+      console.log('submitSuccessful: ', submitSuccessful)
       if (submitSuccessful) {
         setUsername('')
         setName('')
         setPassword('')
         setEmail('')
         setPasswordConfirm('')
-        useNavigate('/login')
+        navigate('/login')
       }
     } else {
       setSubmitError(true)
