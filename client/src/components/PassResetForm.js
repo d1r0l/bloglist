@@ -16,6 +16,7 @@ import { Mail } from '@mui/icons-material'
 const LoginForm = () => {
   const [email, setEmail] = useState('')
 
+  // /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
   // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch()
   const navigate = useNavigate()

@@ -12,7 +12,12 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
-  if (!request.user) throw new Error('invalid user id')
+  if (!request.user) {
+    const error = new Error()
+    error.name = 'AuthentificationError'
+    error.message = 'User authentification failed.'
+    throw error
+  }
   const body = {
     title: request.body.title,
     author: request.body.author,
@@ -27,16 +32,29 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(returnedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
-  const blog = await Blog.findOne({ _id: request.params.id })
-  if (!blog) throw new Error('invalid blog id')
-  if (request.user._id.toString() === blog.user.toString()) {
-    await Blog.findByIdAndRemove(request.params.id)
-    await User.findByIdAndUpdate(blog.user, {
-      $pull: { blogs: request.params.id }
-    })
-    response.status(204).end()
-  } else throw new Error('deletion rejected: blog created by another user')
+blogsRouter.delete('/:id', async (request, response, next) => {
+  try {
+    const blog = await Blog.findOne({ _id: request.params.id })
+    if (!blog) {
+      const error = new Error()
+      error.name = 'CastError'
+      error.message =
+        'Cast to ObjectId failed for value "invalid id" at path "_id"'
+    }
+    if (request.user._id.toString() === blog.user.toString()) {
+      await Blog.findByIdAndRemove(request.params.id)
+      await User.findByIdAndUpdate(blog.user, {
+        $pull: { blogs: request.params.id }
+      })
+      response.status(204).end()
+    } else {
+      const error = new Error()
+      error.name = 'AuthentificationError'
+      error.message = 'User authentification failed: invalid user id'
+    }
+  } catch (error) {
+    next(error)
+  }
 })
 
 blogsRouter.put('/:id', async (request, response) => {
@@ -53,7 +71,12 @@ blogsRouter.put('/:id', async (request, response) => {
 })
 
 blogsRouter.post('/:id/comments', async (request, response) => {
-  if (!request.user) throw new Error('invalid user id')
+  if (!request.user) {
+    const error = new Error()
+    error.name = 'AuthentificationError'
+    error.message = 'User authentification failed: invalid user id'
+    throw error
+  }
   try {
     const result = await Blog.findByIdAndUpdate(
       request.params.id,

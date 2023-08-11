@@ -14,7 +14,6 @@ module.exports = {
   plugins: ['react', 'jest', 'cypress', 'prettier'],
   rules: {
     'linebreak-style': ['error', 'unix'],
-    'quotes': ['error', 'single'],
     'semi': ['error', 'never'],
     'react/react-in-jsx-scope': 0,
     'eqeqeq': 'error',

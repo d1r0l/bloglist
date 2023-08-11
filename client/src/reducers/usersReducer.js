@@ -80,13 +80,25 @@ export const createUser = newUser => {
       const createdUser = await usersService.createNew(newUser)
       dispatch(appendUser(createdUser))
       dispatch(
-        makeNotification({ text: 'User created successfuly', color: 'green' })
+        makeNotification({
+          text: "You've successfully signed up!",
+          color: 'green'
+        })
       )
       return true
     } catch (error) {
-      dispatch(
-        makeNotification({ text: error.response.data.error, color: 'red' })
-      )
+      if (error.response.data.error) {
+        dispatch(
+          makeNotification({ text: error.response.data.error, color: 'red' })
+        )
+      } else {
+        dispatch(
+          makeNotification({
+            text: 'An error occurred while signing up',
+            color: 'red'
+          })
+        )
+      }
       return false
     }
   }

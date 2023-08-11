@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
   Avatar,
@@ -13,11 +13,15 @@ import {
 } from '@mui/material'
 import { PersonAdd } from '@mui/icons-material'
 import { createUser } from '../reducers/usersReducer'
+import { makeNotification } from '../reducers/notificationReducer'
 
 const LoginForm = () => {
+  const users = useSelector(state => state.users)
   const [username, setUsername] = useState('')
+  const [usernameTaken, setUsernameTaken] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [emailTaken, setEmailTaken] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [passwordMatch, setPasswordMatch] = useState(true)
@@ -33,23 +37,48 @@ const LoginForm = () => {
     } else {
       setPasswordMatch(false)
     }
+  }, [password, passwordConfirm])
+
+  useEffect(() => {
+    setUsernameTaken(false)
+  }, [username])
+
+  useEffect(() => {
+    setEmailTaken(false)
+  }, [email])
+
+  useEffect(() => {
     if (
       username.length >= 3 &&
       name.length >= 3 &&
-      email.match(/.+@.+\..+/) &&
+      email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/) &&
       password.length >= 8 &&
       passwordConfirm.length >= 8 &&
       password === passwordConfirm
     ) {
       setFormFilledProperly(true)
+    } else {
+      setFormFilledProperly(false)
     }
   }, [username, name, email, password, passwordConfirm])
 
   const handleSubmit = async event => {
-    console.log('handleSubmit')
+    const usernameExists = users.some(user => user.username === username)
+    if (usernameExists) {
+      setUsernameTaken(true)
+    } else {
+      setUsernameTaken(false)
+    }
+
+    const emailExists = users.some(user => user.email === email)
+    if (emailExists) {
+      setEmailTaken(true)
+    } else {
+      setEmailTaken(false)
+    }
+
     event.preventDefault()
-    console.log('formFilledProperly: ', formFilledProperly)
-    if (formFilledProperly) {
+    if (formFilledProperly && !usernameExists && !emailExists) {
       setSubmitError(false)
       const newUser = {
         username: username,
@@ -58,7 +87,6 @@ const LoginForm = () => {
         email: email
       }
       const submitSuccessful = await dispatch(createUser(newUser))
-      console.log('submitSuccessful: ', submitSuccessful)
       if (submitSuccessful) {
         setUsername('')
         setName('')
@@ -69,6 +97,12 @@ const LoginForm = () => {
       }
     } else {
       setSubmitError(true)
+      dispatch(
+        makeNotification({
+          text: 'the form is not filled properly',
+          color: 'red'
+        })
+      )
     }
   }
 
@@ -101,6 +135,10 @@ const LoginForm = () => {
             required
             fullWidth
             autoFocus
+            {...(usernameTaken && {
+              error: true,
+              helperText: 'Username is already taken'
+            })}
             {...(username.length > 0 &&
               username.length < 3 && {
                 error: true,
@@ -141,10 +179,15 @@ const LoginForm = () => {
             margin='normal'
             required
             fullWidth
+            {...(emailTaken && {
+              error: true,
+              helperText: 'Email address is already taken'
+            })}
             {...(submitError && email.length === 0
               ? { error: true, helperText: 'Please enter an email address' }
               : {})}
-            {...(email.length > 0 && !email.match(/.+@.+\..+/)
+            {...(email.length > 0 &&
+            !email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
               ? { error: true, helperText: 'Email address must be valid' }
               : {})}
           />
