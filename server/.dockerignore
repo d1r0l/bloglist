@@ -1,0 +1,9 @@
+/.git
+/node_modules
+/tests
+/requests
+.dockerignore
+.env
+.eslintrc.js
+Dockerfile
+fly.toml
