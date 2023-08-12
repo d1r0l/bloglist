@@ -12,8 +12,7 @@ import {
   Card,
   TextField
 } from '@mui/material'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import CommentIcon from '@mui/icons-material/Comment'
+import { Favorite, Comment } from '@mui/icons-material'
 
 const BlogPage = () => {
   const [comment, setComment] = useState('')
@@ -118,7 +117,7 @@ const BlogPage = () => {
                 height: { sm: 73 }
               }}
               onClick={handleLike}
-              startIcon={<FavoriteIcon />}
+              startIcon={<Favorite />}
             >
               {blog.likes}
             </Button>
@@ -174,7 +173,7 @@ const BlogPage = () => {
               <Stack spacing={{ xs: 1, sm: 2 }} direction='column'>
                 {blog.comments.map((comment, index) => (
                   <Box key={index} display='flex' alignItems='center'>
-                    <CommentIcon color='secondary' />
+                    <Comment color='secondary' />
                     <Typography ml={1} variant='h6'>
                       {comment}
                     </Typography>

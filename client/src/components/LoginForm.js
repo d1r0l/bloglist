@@ -1,28 +1,49 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../reducers/activeUserReducer'
-import TextField from '@mui/material/TextField'
-import Box from '@mui/material/Box'
-import { Button } from '@mui/material'
-import Typography from '@mui/material/Typography'
-import Avatar from '@mui/material/Avatar'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Container from '@mui/material/Container'
+import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom'
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Link,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material'
+import { Person } from '@mui/icons-material'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const dispatch = useDispatch()
+  const [loginError, setLoginError] = useState(false)
 
-  const handleSubmit = event => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const currentPath = location.pathname
+
+  useEffect(() => {
+    setLoginError(false)
+  }, [username, password])
+
+  const handleSubmit = async event => {
     event.preventDefault()
     const credentials = {
       username: username,
       password: password
     }
-    setPassword('')
-    setUsername('')
-    dispatch(loginUser(credentials))
+    const loginSuccessful = await dispatch(loginUser(credentials))
+    if (loginSuccessful) {
+      setPassword('')
+      setUsername('')
+      if (currentPath === '/login') {
+        navigate('/')
+      }
+    } else {
+      setLoginError(true)
+    }
   }
 
   return (
@@ -36,10 +57,10 @@ const LoginForm = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+          <Person />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign in
+          Sign In
         </Typography>
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -54,6 +75,7 @@ const LoginForm = () => {
             required
             fullWidth
             autoFocus
+            {...(loginError ? { error: true } : {})}
           />
           <TextField
             id='input-password'
@@ -66,7 +88,13 @@ const LoginForm = () => {
             onChange={({ target }) => setPassword(target.value)}
             required
             fullWidth
+            {...(loginError ? { error: true } : {})}
           />
+          {loginError && (
+            <Typography variant='body2' color='error' align='center'>
+              Incorrect username or password
+            </Typography>
+          )}
           <Button
             id='button-login'
             type='submit'
@@ -76,6 +104,14 @@ const LoginForm = () => {
           >
             login
           </Button>
+          <Stack direction='row' justifyContent='space-between'>
+            <Link component={RouterLink} to='/resetpassword' variant='body2'>
+              Forgot password?
+            </Link>
+            <Link component={RouterLink} to='/signup' variant='body2'>
+              Don&apos;t have an account? Sign Up
+            </Link>
+          </Stack>
         </Box>
       </Box>
     </Container>

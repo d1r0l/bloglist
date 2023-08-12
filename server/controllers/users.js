@@ -12,31 +12,33 @@ usersRouter.get('/', async (request, response) => {
   response.status(200).json(users)
 })
 
-usersRouter.post('/', async (request, response) => {
-  const { username, password, name } = request.body
-  if (!password) {
-    response
-      .status(400)
-      .json('User validation failed: password: Path `password` is required.')
-  } else if (password.length < 3) {
-    response
-      .status(400)
-      .json(
-        `User validation failed: password: Path \`password\` (\`${password}\`) is shorter than the minimum allowed length (3).`
-      )
-  } else {
-    try {
+usersRouter.post('/', async (request, response, next) => {
+  const { username, password, name, email } = request.body
+  try {
+    if (!password) {
+      const error = new Error()
+      error.name = 'ValidationError'
+      error.message =
+        'User validation failed: password: Path `password` is required.'
+      throw error
+    } else if (password.length < 8) {
+      const error = new Error()
+      error.name = 'ValidationError'
+      error.message = `User validation failed: password: Path \`password\` (\`${password}\`) is shorter than the minimum allowed length (8).`
+      throw error
+    } else {
       const passwordHash = await bcrypt.hash(password, SALTROUNDS)
       const user = new User({
         username: username,
         passwordHash: passwordHash,
-        name: name
+        name: name,
+        email: email
       })
       const savedUser = await user.save()
       response.status(201).json(savedUser)
-    } catch (error) {
-      response.status(400).json(error.message)
     }
+  } catch (error) {
+    next(error)
   }
 })
 

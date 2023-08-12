@@ -10,6 +10,7 @@ const logger = require('./utils/logger')
 const blogsRouter = require('./controllers/blogs')
 const loginRouter = require('./controllers/login')
 const usersRouter = require('./controllers/users')
+const passResetRouter = require('./controllers/passReset')
 
 mongoose.set('strictQuery', false)
 
@@ -31,6 +32,7 @@ app.use(middleware.tokenExtractor)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/blogs', middleware.userExtractor, blogsRouter)
+app.use('/api/forgotpassword', passResetRouter)
 app.use('/api/*', middleware.unknownEndpoint)
 app.get('*', (request, response) => {
   response.sendFile(path.join(__dirname + '/build/index.html'))

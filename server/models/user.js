@@ -4,7 +4,13 @@ const uniqueValidator = require('mongoose-unique-validator')
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, minLength: 3, unique: true },
   passwordHash: String,
-  name: String,
+  name: { type: String, required: true, minLength: 3 },
+  email: {
+    type: String,
+    required: true,
+    match: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+    unique: true
+  },
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
