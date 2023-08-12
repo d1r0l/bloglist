@@ -10,7 +10,7 @@ const reset = async email => {
 
 const change = async (userId, token, password) => {
   const request = await axios
-    .post(`${baseUrl}/${userId}/${token}`, password)
+    .post(`${baseUrl}/${userId}/${token}`, { password })
     .then(response => response.data)
   return request
 }

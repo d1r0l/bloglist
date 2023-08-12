@@ -87,6 +87,11 @@ const errorHandler = (error, request, response, next) => {
         if (contains('email')) {
           return response.status(400).json({ error: 'Email is invalid' })
         }
+        if (contains('or has expired')) {
+          return response
+            .status(400)
+            .json({ error: 'Token is invalid or expired' })
+        }
         return response.status(400).json({ error: error.message })
       }
       if (contains('No user found')) {

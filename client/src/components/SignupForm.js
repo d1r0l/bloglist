@@ -63,6 +63,8 @@ const LoginForm = () => {
   }, [username, name, email, password, passwordConfirm])
 
   const handleSubmit = async event => {
+    event.preventDefault()
+
     const usernameExists = users.some(user => user.username === username)
     if (usernameExists) {
       setUsernameTaken(true)
@@ -77,7 +79,6 @@ const LoginForm = () => {
       setEmailTaken(false)
     }
 
-    event.preventDefault()
     if (formFilledProperly && !usernameExists && !emailExists) {
       setSubmitError(false)
       const newUser = {
@@ -99,7 +100,7 @@ const LoginForm = () => {
       setSubmitError(true)
       dispatch(
         makeNotification({
-          text: 'the form is not filled properly',
+          text: 'The form is not filled properly',
           color: 'red'
         })
       )

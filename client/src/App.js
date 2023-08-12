@@ -14,6 +14,7 @@ import Users from './components/Users'
 import UserPage from './components/UserPage'
 import BlogPage from './components/BlogPage'
 import NavMenu from './components/NavMenu'
+import PassForgotForm from './components/PassForgotForm'
 import PassResetForm from './components/PassResetForm'
 import { Box, Container, Grid } from '@mui/material'
 import logo from './img/logo.png'
@@ -64,27 +65,36 @@ const App = () => {
         />
         {activeUser ? <NavMenu /> : null}
         <Notification />
-        {activeUser ? (
-          <div>
-            <Routes>
-              <Route path='/' element={<BlogList />} />
-              <Route path='users' element={<Users />} />
-              <Route path='users/:userId' element={<UserPage />} />
-              <Route path='blogs' element={<Navigate to='/' />} />
-              <Route path='blogs/:blogId' element={<BlogPage />} />
-              <Route path='/notfound' element={<NotFound />} />
-              <Route path='*' element={<Navigate to='/notfound' />} />
-            </Routes>
-          </div>
-        ) : (
-          <div>
-            <Routes>
-              <Route path='/signup' element={<SignupForm />} />
-              <Route path='/resetpassword' element={<PassResetForm />} />
-              <Route path='*' element={<LoginForm />} />
-            </Routes>
-          </div>
-        )}
+        <div>
+          <Routes>
+            <Route
+              path='/'
+              element={activeUser ? <BlogList /> : <LoginForm />}
+            />
+            <Route path='blogs' element={<Navigate to='/' />} />
+            <Route
+              path='users'
+              element={activeUser ? <Users /> : <LoginForm />}
+            />
+            <Route
+              path='users/:userId'
+              element={activeUser ? <UserPage /> : <LoginForm />}
+            />
+            <Route
+              path='blogs/:blogId'
+              element={activeUser ? <BlogPage /> : <LoginForm />}
+            />
+            <Route path='/signup' element={<SignupForm />} />
+            <Route path='/login' element={<LoginForm />} />
+            <Route path='/resetpassword' element={<PassForgotForm />} />
+            <Route
+              path='/resetpassword/:userId/:token'
+              element={<PassResetForm />}
+            />
+            <Route path='/notfound' element={<NotFound />} />
+            <Route path='*' element={<Navigate to='/notfound' />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </Container>
   )
