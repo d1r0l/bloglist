@@ -105,7 +105,7 @@ const LoginForm = () => {
             login
           </Button>
           <Stack direction='row' justifyContent='space-between'>
-            <Link component={RouterLink} to='/reset' variant='body2'>
+            <Link component={RouterLink} to='/resetpassword' variant='body2'>
               Forgot password?
             </Link>
             <Link component={RouterLink} to='/signup' variant='body2'>

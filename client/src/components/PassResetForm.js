@@ -1,6 +1,8 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link as RouterLink } from 'react-router-dom'
+import passResetService from '../services/passReset'
 import {
   Avatar,
   Box,
@@ -12,20 +14,47 @@ import {
   Typography
 } from '@mui/material'
 import { Mail } from '@mui/icons-material'
+import { makeNotification } from '../reducers/notificationReducer'
+import { initializeUsers } from '../reducers/usersReducer'
 
 const LoginForm = () => {
+  const users = useSelector(state => state.users)
   const [email, setEmail] = useState('')
 
-  // /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-  // eslint-disable-next-line no-unused-vars
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  useEffect(() => {
+    initializeUsers()
+  }, [])
 
-  const handleSubmit = event => {
+  const dispatch = useDispatch()
+
+  const handleSubmit = async event => {
     event.preventDefault()
-    // dispatch(null)
-    setEmail('')
-    navigate('/login')
+    if (email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+      if (users.find(user => user.email === email)) {
+        try {
+          await passResetService.reset({ email })
+          dispatch(
+            makeNotification({
+              text: 'Password reset email sent',
+              color: 'green'
+            })
+          )
+        } catch (error) {
+          console.log(error)
+          dispatch(
+            makeNotification({ text: error.response.data, color: 'red' })
+          )
+        }
+        setEmail('')
+      } else {
+        dispatch(
+          makeNotification({
+            text: 'User with such email does not exist',
+            color: 'red'
+          })
+        )
+      }
+    }
   }
 
   return (
@@ -66,7 +95,8 @@ const LoginForm = () => {
             required
             fullWidth
             autoFocus
-            {...(email.length > 0 && !email.match(/.+@.+\..+/)
+            {...(email.length > 0 &&
+            !email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
               ? { error: true, helperText: 'Email address must be valid' }
               : {})}
           />

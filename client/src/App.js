@@ -80,7 +80,7 @@ const App = () => {
           <div>
             <Routes>
               <Route path='/signup' element={<SignupForm />} />
-              <Route path='/reset' element={<PassResetForm />} />
+              <Route path='/resetpassword' element={<PassResetForm />} />
               <Route path='*' element={<LoginForm />} />
             </Routes>
           </div>
