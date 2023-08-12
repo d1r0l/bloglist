@@ -53,7 +53,12 @@ const Blog = ({ blog }) => {
             {blog.author}
           </Typography>
           <div style={showWhenVisible}>
-            <Typography variant='body1'>
+            <Typography
+              variant='body1'
+              sx={{
+                wordBreak: 'break-all'
+              }}
+            >
               <Link href={blog.url}>{blog.url}</Link>
             </Typography>
             <Typography display='inline' variant='body1' color='text.secondary'>
