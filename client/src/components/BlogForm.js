@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBlog } from '../reducers/blogsReducer'
@@ -8,24 +8,40 @@ const BlogForm = ({ blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [submitError, setSubmitError] = useState(false)
   const activeUser = useSelector(state => state.activeUser)
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    setSubmitError(false)
+  }, [title, author, url])
+
   const handleSubmit = async event => {
     event.preventDefault()
-    const newBlog = {
-      title: title,
-      author: author,
-      url: url
-    }
-    const dispatchSuccessful = await dispatch(createBlog(newBlog, activeUser))
-    if (dispatchSuccessful) {
-      if (blogFormRef) {
-        blogFormRef.current.toggleVisibility()
+    if (
+      !title ||
+      !author ||
+      url.match(
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
+      ) === null
+    ) {
+      setSubmitError(true)
+      return
+    } else {
+      const newBlog = {
+        title: title,
+        author: author,
+        url: url
       }
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+      const dispatchSuccessful = await dispatch(createBlog(newBlog, activeUser))
+      if (dispatchSuccessful) {
+        if (blogFormRef) {
+          blogFormRef.current.toggleVisibility()
+        }
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+      }
     }
   }
 
@@ -44,6 +60,8 @@ const BlogForm = ({ blogFormRef }) => {
           required
           fullWidth
           autoFocus
+          {...(submitError &&
+            !title && { error: true, helperText: 'required' })}
         />
         <TextField
           id='input-author'
@@ -56,6 +74,11 @@ const BlogForm = ({ blogFormRef }) => {
           margin='dense'
           required
           fullWidth
+          {...(submitError &&
+            !author && {
+              error: true,
+              helperText: 'required'
+            })}
         />
         <TextField
           id='input-url'
@@ -68,6 +91,11 @@ const BlogForm = ({ blogFormRef }) => {
           margin='dense'
           required
           fullWidth
+          {...(submitError &&
+            url.match(
+              /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
+            ) === null && { error: true, helperText: 'invalid url' })}
+          {...(submitError && !url && { error: true, helperText: 'required' })}
         />
         <br />
         <Button
