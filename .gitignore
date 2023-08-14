@@ -27,3 +27,6 @@
 
 **/cypress/downloads
 **/cypress/videos
+
+## VSCode workspace
+*.code-workspace
