@@ -16,8 +16,6 @@ usersRouter.get('/', async (request, response) => {
 
 usersRouter.post('/check', async (request, response, next) => {
   const { username, email } = request.body
-  console.log('username', username)
-  console.log('email', email)
   try {
     const usernameExists = await User.findOne({ username: username })
     const emailExists = await User.findOne({ email: email })

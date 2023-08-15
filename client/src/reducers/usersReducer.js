@@ -111,7 +111,6 @@ export const checkUsernameAndEmail = (username, email) => {
       return response
     } catch (error) {
       if (error.response.data.error) {
-        console.log(error.response.data.error)
         dispatch(
           makeNotification({ text: error.response.data.error, color: 'red' })
         )
