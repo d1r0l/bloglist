@@ -48,7 +48,7 @@ passResetRouter.post('/', async (request, response, next) => {
       link +
       '\n\n' +
       'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-    await sendEmail(user.email, 'Reset your password', emailBody)
+    await sendEmail(request.body.email, 'Reset your password', emailBody)
     response
       .status(200)
       .json({ message: 'Password reset link sent successfully.' })

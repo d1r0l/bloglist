@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
   Avatar,
@@ -12,11 +12,10 @@ import {
   Typography
 } from '@mui/material'
 import { PersonAdd } from '@mui/icons-material'
-import { createUser } from '../reducers/usersReducer'
+import { checkUsernameAndEmail, createUser } from '../reducers/usersReducer'
 import { makeNotification } from '../reducers/notificationReducer'
 
 const LoginForm = () => {
-  const users = useSelector(state => state.users)
   const [username, setUsername] = useState('')
   const [usernameTaken, setUsernameTaken] = useState(false)
   const [name, setName] = useState('')
@@ -64,37 +63,29 @@ const LoginForm = () => {
 
   const handleSubmit = async event => {
     event.preventDefault()
-
-    const usernameExists = users.some(user => user.username === username)
-    if (usernameExists) {
-      setUsernameTaken(true)
-    } else {
-      setUsernameTaken(false)
-    }
-
-    const emailExists = users.some(user => user.email === email)
-    if (emailExists) {
-      setEmailTaken(true)
-    } else {
-      setEmailTaken(false)
-    }
-
-    if (formFilledProperly && !usernameExists && !emailExists) {
-      setSubmitError(false)
-      const newUser = {
-        username: username,
-        password: password,
-        name: name,
-        email: email
-      }
-      const submitSuccessful = await dispatch(createUser(newUser))
-      if (submitSuccessful) {
-        setUsername('')
-        setName('')
-        setPassword('')
-        setEmail('')
-        setPasswordConfirm('')
-        navigate('/login')
+    setSubmitError(false)
+    if (formFilledProperly) {
+      const { usernameExists, emailExists } = await dispatch(
+        checkUsernameAndEmail(username, email)
+      )
+      usernameExists ? setUsernameTaken(true) : null
+      emailExists ? setEmailTaken(true) : null
+      if (!usernameExists && !emailExists) {
+        const newUser = {
+          username: username,
+          password: password,
+          name: name,
+          email: email
+        }
+        const submitSuccessful = await dispatch(createUser(newUser))
+        if (submitSuccessful) {
+          setUsername('')
+          setName('')
+          setPassword('')
+          setEmail('')
+          setPasswordConfirm('')
+          navigate('/login')
+        }
       }
     } else {
       setSubmitError(true)

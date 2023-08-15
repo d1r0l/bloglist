@@ -104,4 +104,28 @@ export const createUser = newUser => {
   }
 }
 
+export const checkUsernameAndEmail = (username, email) => {
+  return async dispatch => {
+    try {
+      const response = await usersService.checkUsernameAndEmail(username, email)
+      return response
+    } catch (error) {
+      if (error.response.data.error) {
+        console.log(error.response.data.error)
+        dispatch(
+          makeNotification({ text: error.response.data.error, color: 'red' })
+        )
+      } else {
+        dispatch(
+          makeNotification({
+            text: 'An error occurred while checking username and email',
+            color: 'red'
+          })
+        )
+      }
+      return { usernameExists: false, emailExists: false }
+    }
+  }
+}
+
 export default usersSlice.reducer

@@ -98,7 +98,9 @@ const errorHandler = (error, request, response, next) => {
         return response.status(400).json({ error: 'No user found' })
       }
       if (contains('email does not exist')) {
-        return response.status(400).json({ error: 'Email does not exist' })
+        return response
+          .status(400)
+          .json({ error: 'User with thiss email does not exist' })
       }
       break
     case 'AuthentificationError':

@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link as RouterLink } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import passResetService from '../services/passReset'
 import {
   Avatar,
@@ -15,44 +14,47 @@ import {
 } from '@mui/material'
 import { Mail } from '@mui/icons-material'
 import { makeNotification } from '../reducers/notificationReducer'
-import { initializeUsers } from '../reducers/usersReducer'
 
-const LoginForm = () => {
-  const users = useSelector(state => state.users)
+const PassForgotForm = () => {
   const [email, setEmail] = useState('')
+  const [submitError, setSubmitError] = useState(false)
 
   useEffect(() => {
-    initializeUsers()
-  }, [])
+    setSubmitError(false)
+  }, [email])
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleSubmit = async event => {
     event.preventDefault()
     if (email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-      if (users.find(user => user.email === email)) {
-        try {
-          await passResetService.reset({ email })
-          dispatch(
-            makeNotification({
-              text: 'Password reset email sent',
-              color: 'green'
-            })
-          )
-        } catch (error) {
-          console.log(error)
-          dispatch(
-            makeNotification({ text: error.response.data, color: 'red' })
-          )
-        }
-        setEmail('')
-      } else {
+      try {
+        await passResetService.reset({ email })
         dispatch(
           makeNotification({
-            text: 'User with such email does not exist',
-            color: 'red'
+            text: 'Password reset email sent',
+            color: 'green'
           })
         )
+        setEmail('')
+        navigate('/login')
+      } catch (error) {
+        if (error.response.data.error.includes('does not exist')) {
+          setSubmitError(true)
+        }
+        if (error.response.data.error) {
+          dispatch(
+            makeNotification({ text: error.response.data.error, color: 'red' })
+          )
+        } else {
+          dispatch(
+            makeNotification({
+              text: 'An error occurred while sending the reset email',
+              color: 'red'
+            })
+          )
+        }
       }
     }
   }
@@ -95,6 +97,9 @@ const LoginForm = () => {
             required
             fullWidth
             autoFocus
+            {...(submitError
+              ? { error: true, helperText: 'User with such email not found' }
+              : {})}
             {...(email.length > 0 &&
             !email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
               ? { error: true, helperText: 'Email address must be valid' }
@@ -123,4 +128,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default PassForgotForm

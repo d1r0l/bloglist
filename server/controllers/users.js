@@ -4,12 +4,31 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt')
 
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({}).populate('blogs', {
-    title: 1,
-    author: 1,
-    url: 1
-  })
+  const users = await User.find({})
+    .select('-email -username')
+    .populate('blogs', {
+      title: 1,
+      author: 1,
+      url: 1
+    })
   response.status(200).json(users)
+})
+
+usersRouter.post('/check', async (request, response, next) => {
+  const { username, email } = request.body
+  console.log('username', username)
+  console.log('email', email)
+  try {
+    const usernameExists = await User.findOne({ username: username })
+    const emailExists = await User.findOne({ email: email })
+    const responseObj = {
+      usernameExists: usernameExists ? true : false,
+      emailExists: emailExists ? true : false
+    }
+    response.status(200).json(responseObj)
+  } catch (error) {
+    next(error)
+  }
 })
 
 usersRouter.post('/', async (request, response, next) => {
