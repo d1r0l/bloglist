@@ -1,13 +1,20 @@
 /* eslint-disable no-unused-vars */
 const nodemailer = require('nodemailer')
-const { EM_HOST, EM_SERVICE, EM_USER, EM_PASS } = require('./config')
+const {
+  EM_HOST,
+  EM_SERVICE,
+  EM_PORT,
+  EM_USER,
+  EM_USER_ALIAS,
+  EM_PASS
+} = require('./config')
 
 const sendEmail = async (email, subject, text) => {
   try {
     const transporter = nodemailer.createTransport({
       host: EM_HOST,
       service: EM_SERVICE,
-      port: 587,
+      port: EM_PORT,
       secure: false,
       auth: {
         user: EM_USER,
@@ -19,7 +26,7 @@ const sendEmail = async (email, subject, text) => {
     })
 
     await transporter.sendMail({
-      from: `BlogList App <${EM_USER}>`,
+      from: `BlogList App <${EM_USER_ALIAS}>`,
       to: email,
       subject: subject,
       text: text

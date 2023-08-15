@@ -8,7 +8,8 @@
     "start:test": "cross-env NODE_ENV=test node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../client && npm run build && @powershell Copy-Item build -Recurse ../server"
+    "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../client && npm run build && @powershell Copy-Item build -Recurse ../server",
+    "build:deploy": "@powershell Remove-Item -Recurse -Force build && cd ../client && npm run build && @powershell Copy-Item build -Recurse ../server && cd ../server && fly deploy"
   },
   "author": "Dmitrii Roshkovan",
   "license": "ISC",
