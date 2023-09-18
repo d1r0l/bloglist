@@ -22,6 +22,7 @@
 **/yarn-error.log*
 
 **/requests
+**/screenshots
 
 #cypress videos & downloads
 
