@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const SALTROUNDS = 10
-const KEY = process.env.KEY
+const JWT_KEY = process.env.JWT_KEY
 const PORT = process.env.PORT
 const MONGODB_URI =
   process.env.NODE_ENV === 'test'
@@ -12,24 +12,24 @@ const BASE_URL =
   process.env.NODE_ENV === 'production'
     ? process.env.PROD_BASE_URL
     : process.env.DEV_BASE_URL
-const EM_SERVICE = process.env.EM_SERVICE
-const EM_PORT = process.env.EM_PORT
-const EM_HOST = process.env.EM_HOST
-const EM_USER = process.env.EM_USER
-const EM_USER_ALIAS = process.env.EM_USER_ALIAS
-const EM_PASS = process.env.EM_PASS
+const MAIL_SERVICE = process.env.MAIL_SERVICE
+const MAIL_PORT = process.env.MAIL_PORT
+const MAIL_HOST = process.env.MAIL_HOST
+const MAIL_USER = process.env.MAIL_USER
+const MAIL_USER_ALIAS = process.env.MAIL_USER_ALIAS
+const MAIL_PASS = process.env.MAIL_PASS
 
 module.exports = {
   SALTROUNDS,
-  KEY,
+  JWT_KEY,
   MONGODB_URI,
   PORT,
   TEST_TOKEN,
   BASE_URL,
-  EM_SERVICE,
-  EM_PORT,
-  EM_HOST,
-  EM_USER,
-  EM_USER_ALIAS,
-  EM_PASS
+  MAIL_SERVICE,
+  MAIL_PORT,
+  MAIL_HOST,
+  MAIL_USER,
+  MAIL_USER_ALIAS,
+  MAIL_PASS
 }

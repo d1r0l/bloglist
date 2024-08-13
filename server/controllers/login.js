@@ -1,4 +1,4 @@
-const { KEY } = require('../utils/config')
+const { JWT_KEY } = require('../utils/config')
 const loginRouter = require('express').Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
@@ -17,7 +17,7 @@ loginRouter.post('/', async (request, response) => {
         username: user.username,
         id: user._id
       }
-      const token = jwt.sign(userForToken, KEY)
+      const token = jwt.sign(userForToken, JWT_KEY)
       response
         .status(200)
         .json({ token, username: user.username, name: user.name, id: user.id })

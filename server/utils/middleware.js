@@ -1,4 +1,4 @@
-const { KEY } = require('../utils/config')
+const { JWT_KEY } = require('../utils/config')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
@@ -20,7 +20,7 @@ const tokenExtractor = async (request, response, next) => {
 const userExtractor = async (request, response, next) => {
   if (request) {
     if (request.method === 'POST' || request.method === 'DELETE') {
-      const decodedToken = jwt.verify(request.token, KEY)
+      const decodedToken = jwt.verify(request.token, JWT_KEY)
       const user = await User.findOne({ _id: decodedToken.id })
       request.user = user
     }
