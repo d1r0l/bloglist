@@ -13,7 +13,7 @@ const NavMenu = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser())
-    navigate('/login')
+    navigate('/signin')
   }
 
   return (

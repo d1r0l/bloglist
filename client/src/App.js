@@ -6,16 +6,16 @@ import { initializeActiveUser } from './reducers/activeUserReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
-import LoginForm from './components/LoginForm'
-import SignupForm from './components/SignupForm'
+import SignInForm from './components/forms/SignInForm'
+import SignUpForm from './components/forms/SignUpForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import Users from './components/Users'
 import UserPage from './components/UserPage'
 import BlogPage from './components/BlogPage'
 import NavMenu from './components/NavMenu'
-import PassForgotForm from './components/PassForgotForm'
-import PassResetForm from './components/PassResetForm'
+import ResetPassForm from './components/forms/ResetPassForm'
+import NewPassForm from './components/forms/NewPassForm'
 import { Box, Container, Grid } from '@mui/material'
 import logo from './img/logo.png'
 import NotFound from './components/NotFound'
@@ -51,7 +51,9 @@ const App = () => {
   }
 
   return (
-    <Container>
+    <Container
+      sx={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}
+    >
       <BrowserRouter>
         <Box
           component='img'
@@ -65,36 +67,34 @@ const App = () => {
         />
         {activeUser ? <NavMenu /> : null}
         <Notification />
-        <div>
-          <Routes>
-            <Route
-              path='/'
-              element={activeUser ? <BlogList /> : <LoginForm />}
-            />
-            <Route path='blogs' element={<Navigate to='/' />} />
-            <Route
-              path='users'
-              element={activeUser ? <Users /> : <LoginForm />}
-            />
-            <Route
-              path='users/:userId'
-              element={activeUser ? <UserPage /> : <LoginForm />}
-            />
-            <Route
-              path='blogs/:blogId'
-              element={activeUser ? <BlogPage /> : <LoginForm />}
-            />
-            <Route path='/signup' element={<SignupForm />} />
-            <Route path='/login' element={<LoginForm />} />
-            <Route path='/resetpassword' element={<PassForgotForm />} />
-            <Route
-              path='/resetpassword/:userId/:token'
-              element={<PassResetForm />}
-            />
-            <Route path='/notfound' element={<NotFound />} />
-            <Route path='*' element={<Navigate to='/notfound' />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route
+            path='/'
+            element={activeUser ? <BlogList /> : <SignInForm />}
+          />
+          <Route path='blogs' element={<Navigate to='/' />} />
+          <Route
+            path='users'
+            element={activeUser ? <Users /> : <SignInForm />}
+          />
+          <Route
+            path='users/:userId'
+            element={activeUser ? <UserPage /> : <SignInForm />}
+          />
+          <Route
+            path='blogs/:blogId'
+            element={activeUser ? <BlogPage /> : <SignInForm />}
+          />
+          <Route path='/signup' element={<SignUpForm />} />
+          <Route path='/signin' element={<SignInForm />} />
+          <Route path='/resetpassword' element={<ResetPassForm />} />
+          <Route
+            path='/resetpassword/:userId/:token'
+            element={<NewPassForm />}
+          />
+          <Route path='/notfound' element={<NotFound />} />
+          <Route path='*' element={<Navigate to='/notfound' />} />
+        </Routes>
       </BrowserRouter>
     </Container>
   )

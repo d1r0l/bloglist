@@ -38,7 +38,7 @@ export const loginUser = credentials => {
         JSON.stringify(loggedUser)
       )
       dispatch(setActiveUser(loggedUser))
-      dispatch(makeNotification({ text: 'login successful', color: 'green' }))
+      dispatch(makeNotification({ text: 'Sign in successful', color: 'green' }))
       return true
     } else {
       dispatch(makeNotification({ text: 'wrong credentials', color: 'red' }))
@@ -51,7 +51,7 @@ export const logoutUser = () => {
   return async dispatch => {
     dispatch(removeActiveUser())
     window.localStorage.removeItem('loggedBloglistAppUser')
-    dispatch(makeNotification({ text: 'logout successful', color: 'green' }))
+    dispatch(makeNotification({ text: 'Sign out successful', color: 'green' }))
   }
 }
 
