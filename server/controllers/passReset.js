@@ -4,6 +4,8 @@ const User = require('../models/user')
 const ResetToken = require('../models/resetToken')
 const sendEmail = require('../utils/sendEmail')
 const crypto = require('crypto')
+const { SALTROUNDS } = require('../utils/config')
+const bcrypt = require('bcrypt')
 
 passResetRouter.post('/', async (request, response, next) => {
   try {
@@ -65,6 +67,7 @@ passResetRouter.post('/:userId/:token', async (request, response, next) => {
     error.name = 'ValidationError'
     throw error
   }
+
   if (request.body.password.length < 8) {
     const error = new Error()
     error.message =
@@ -86,6 +89,7 @@ passResetRouter.post('/:userId/:token', async (request, response, next) => {
     userId: user.id,
     token: request.params.token
   })
+
   if (!fetchedResetToken) {
     const error = new Error()
     error.message =
@@ -93,8 +97,10 @@ passResetRouter.post('/:userId/:token', async (request, response, next) => {
     error.name = 'ValidationError'
     throw error
   }
+
   try {
-    user.password = request.body.password
+    const passwordHash = await bcrypt.hash(request.body.password, SALTROUNDS)
+    user.passwordHash = passwordHash
     await user.save()
     await ResetToken.findByIdAndDelete(fetchedResetToken.id)
     response.status(200).json({ message: 'Password reset successful.' })

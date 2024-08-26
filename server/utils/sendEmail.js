@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
 const nodemailer = require('nodemailer')
 const {
   MAIL_HOST,
-  MAIL_SERVICE,
   MAIL_PORT,
   MAIL_USER,
   MAIL_USER_ALIAS,
@@ -13,7 +11,6 @@ const sendEmail = async (email, subject, text) => {
   try {
     const transporter = nodemailer.createTransport({
       host: MAIL_HOST,
-      service: MAIL_SERVICE,
       port: MAIL_PORT,
       secure: false,
       auth: {
@@ -32,7 +29,7 @@ const sendEmail = async (email, subject, text) => {
       text: text
     })
   } catch (error) {
-    console.log(error, 'email not sent')
+    console.log('Email not sent: \n', error)
   }
 }
 

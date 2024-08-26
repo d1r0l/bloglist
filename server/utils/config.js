@@ -12,7 +12,6 @@ const BASE_URL =
   process.env.NODE_ENV === 'production'
     ? process.env.PROD_BASE_URL
     : process.env.DEV_BASE_URL
-const MAIL_SERVICE = process.env.MAIL_SERVICE
 const MAIL_PORT = process.env.MAIL_PORT
 const MAIL_HOST = process.env.MAIL_HOST
 const MAIL_USER = process.env.MAIL_USER
@@ -26,7 +25,6 @@ module.exports = {
   PORT,
   TEST_TOKEN,
   BASE_URL,
-  MAIL_SERVICE,
   MAIL_PORT,
   MAIL_HOST,
   MAIL_USER,
