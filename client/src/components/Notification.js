@@ -1,5 +1,5 @@
 import { Alert, Snackbar } from '@mui/material'
-import { useSelector } from 'react-redux/es/hooks/useSelector'
+import { useSelector } from 'react-redux'
 
 let open = true
 

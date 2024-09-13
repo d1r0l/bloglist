@@ -1,4 +1,3 @@
-// this will be the component that will be rendered when the user tries to access a page that does not exist
 import { Box, Button, Typography } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -6,11 +5,11 @@ const NotFound = () => {
   return (
     <Box
       sx={{
+        flex: 1,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        height: '50vh'
+        alignItems: 'center'
       }}
     >
       <Typography

@@ -6,17 +6,16 @@ import { checkUsernameAndEmail } from '../../reducers/usersReducer'
 import { createUser } from '../../reducers/usersReducer'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import FormContainer from './common/FormContainer'
-import FormIcon from './common/FormIcon'
 import FormHeader from './common/FormHeader'
 import Form from './common/Form'
 import FormInput from './common/FormInput'
 import FormButton from './common/FormButton'
-import FormLinkStack from './common/FormLinkStack'
 import FormLink from './common/FormLink'
 import FormInputWithCheck from './common/FormInputWithCheck'
 import FormPasswordInput from './common/FormPasswordInput'
 import regex from '../../utils/regex'
 import { cancelTimeout, promiseWithTimeout } from '../../utils/misc'
+import FormLinkStack from './common/FormLinkStack'
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -166,10 +165,7 @@ const SignUpForm = () => {
 
   return (
     <FormContainer>
-      <FormIcon>
-        <PersonAddIcon />
-      </FormIcon>
-      <FormHeader>{'Sign Up'}</FormHeader>
+      <FormHeader label={'Sign\xA0Up'} icon={<PersonAddIcon />} />
       <Form onSubmit={preSubmit(handleSubmit(onSubmit))}>
         <FormInputWithCheck
           label='Username'
@@ -215,7 +211,9 @@ const SignUpForm = () => {
         </FormButton>
       </Form>
       <FormLinkStack>
-        <FormLink to='/signin' text='Return to Sign In' />
+        <FormLinkStack inner>
+          <FormLink to='/signin'>Return to Sign In</FormLink>
+        </FormLinkStack>
       </FormLinkStack>
     </FormContainer>
   )

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,15 +5,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { makeNotification } from '../../reducers/notificationReducer'
 import passResetService from '../../services/passReset'
 import FormContainer from './common/FormContainer'
-import FormIcon from './common/FormIcon'
 import LockIcon from '@mui/icons-material/Lock'
 import FormHeader from './common/FormHeader'
 import Form from './common/Form'
 import FormPasswordInput from './common/FormPasswordInput'
 import FormButton from './common/FormButton'
-import FormLinkStack from './common/FormLinkStack'
 import FormLink from './common/FormLink'
 import regex from '../../utils/regex'
+import FormLinkStack from './common/FormLinkStack'
+import Typography from '@mui/material/Typography'
 
 const ResetPassForm = () => {
   const users = useSelector(state => state.users)
@@ -29,8 +28,7 @@ const ResetPassForm = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
-    reset,
-    setError
+    reset
   } = useForm({
     mode: 'onChange',
     defaultValues: { password: '', passwordConfirm: '' }
@@ -85,11 +83,11 @@ const ResetPassForm = () => {
 
   return (
     <FormContainer>
-      <FormIcon>
-        <LockIcon />
-      </FormIcon>
-      <FormHeader>{'Reset Your Password'}</FormHeader>
-      <FormHeader comment>{'Enter new password for your account.'}</FormHeader>
+      <FormHeader
+        label={'Reset\xA0Your Password'}
+        icon={<LockIcon />}
+        comment='Enter new password for your account.'
+      />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormPasswordInput
           label='Password'
@@ -129,8 +127,11 @@ const ResetPassForm = () => {
         </FormButton>
       </Form>
       <FormLinkStack>
-        <FormLink to='/signin' text='Return to Sign In' />
-        <FormLink to='/signup' text='Want to create new account? Sign Up' />
+        <FormLink to='/signin'>Return to Sign In</FormLink>
+        <FormLinkStack inner>
+          <Typography variant='label'>Want to create new account?</Typography>
+          <FormLink to='/signup'>Sign Up</FormLink>
+        </FormLinkStack>
       </FormLinkStack>
     </FormContainer>
   )

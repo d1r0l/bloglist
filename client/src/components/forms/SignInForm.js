@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import { loginUser } from '../../reducers/activeUserReducer'
 import PersonIcon from '@mui/icons-material/Person'
 import FormContainer from './common/FormContainer'
-import FormIcon from './common/FormIcon'
 import FormHeader from './common/FormHeader'
 import Form from './common/Form'
 import FormInput from './common/FormInput'
@@ -14,6 +13,7 @@ import FormLinkStack from './common/FormLinkStack'
 import FormLink from './common/FormLink'
 import FormPasswordInput from './common/FormPasswordInput'
 import regex from '../../utils/regex'
+import Typography from '@mui/material/Typography'
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -57,10 +57,7 @@ const SignInForm = () => {
 
   return (
     <FormContainer>
-      <FormIcon>
-        <PersonIcon />
-      </FormIcon>
-      <FormHeader>{'Sign In'}</FormHeader>
+      <FormHeader label={'Sign\xA0In'} icon={<PersonIcon />} />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
           label='Username'
@@ -82,8 +79,11 @@ const SignInForm = () => {
         </FormButton>
       </Form>
       <FormLinkStack>
-        <FormLink to='/resetpassword' text='Forgot password?' />
-        <FormLink to='/signup' text="Don't have an account? Sign Up" />
+        <FormLink to='/resetpassword'>Forgot password?</FormLink>
+        <FormLinkStack inner>
+          <Typography variant='label'>{"Don't have an account?"}</Typography>
+          <FormLink to='/signup'>{'Sign Up'}</FormLink>
+        </FormLinkStack>
       </FormLinkStack>
     </FormContainer>
   )

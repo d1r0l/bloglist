@@ -4,20 +4,17 @@ import Container from '@mui/material/Container'
 
 const FormContainer = ({ children }) => {
   return (
-    <Container
-      component='main'
+    <Box
+      display='flex'
+      alignItems={'center'}
+      justifyContent={'center'}
+      minHeight={'75dvh'}
       maxWidth='xs'
-      sx={{
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center'
-      }}
     >
-      <Box display='flex' flexDirection='column' justifyContent='center'>
+      <Container maxWidth='xs' disableGutters>
         {children}
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   )
 }
 

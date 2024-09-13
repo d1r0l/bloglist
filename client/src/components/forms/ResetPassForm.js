@@ -3,15 +3,15 @@ import { useDispatch } from 'react-redux'
 import { makeNotification } from '../../reducers/notificationReducer'
 import passResetService from '../../services/passReset'
 import FormContainer from './common/FormContainer'
-import FormIcon from './common/FormIcon'
 import MailIcon from '@mui/icons-material/Mail'
 import FormHeader from './common/FormHeader'
 import Form from './common/Form'
 import FormInput from './common/FormInput'
 import FormButton from './common/FormButton'
-import FormLinkStack from './common/FormLinkStack'
 import FormLink from './common/FormLink'
 import regex from '../../utils/regex'
+import FormLinkStack from './common/FormLinkStack'
+import Typography from '@mui/material/Typography'
 
 const ResetPassForm = () => {
   const dispatch = useDispatch()
@@ -64,15 +64,11 @@ const ResetPassForm = () => {
 
   return (
     <FormContainer>
-      <FormIcon>
-        <MailIcon />
-      </FormIcon>
-      <FormHeader>{'Reset Your Password'}</FormHeader>
-      <FormHeader comment>
-        {
-          "Enter your email address and we'll send you a link to reset your password."
-        }
-      </FormHeader>
+      <FormHeader
+        label={'Reset\xA0Your Password'}
+        icon={<MailIcon />}
+        comment="Enter your email address and we'll send you a link to reset your password."
+      />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
           label='Email'
@@ -86,8 +82,11 @@ const ResetPassForm = () => {
         </FormButton>
       </Form>
       <FormLinkStack>
-        <FormLink to='/signin' text='Return to Sign In' />
-        <FormLink to='/signup' text='Want to create new account? Sign Up' />
+        <FormLink to='/signin'>Return to Sign In</FormLink>
+        <FormLinkStack inner>
+          <Typography variant='label'>Want to create new account?</Typography>
+          <FormLink to='/signup'>Sign Up</FormLink>
+        </FormLinkStack>
       </FormLinkStack>
     </FormContainer>
   )

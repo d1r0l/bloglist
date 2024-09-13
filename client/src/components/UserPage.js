@@ -41,7 +41,7 @@ const UserPage = () => {
           </Grid>
         )}
         {user.blogs.map(blog => (
-          <Grid key={blog.id} item xs={12} md={6}>
+          <Grid key={blog.id} item xs={12} sm={6}>
             <Card>
               <CardActionArea component={RouterLink} to={`/blogs/${blog.id}`}>
                 <CardContent sx={{ flex: 1 }}>

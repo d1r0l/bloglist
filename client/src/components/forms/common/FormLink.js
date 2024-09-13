@@ -1,31 +1,21 @@
 import PropTypes from 'prop-types'
 import { Link as RouterLink } from 'react-router-dom'
 import Link from '@mui/material/Link'
-import Typography from '@mui/material/Typography'
 
-const textProps = {
-  variant: 'body2',
-  color: 'text.secondary',
-  sx: { display: 'inline' }
-}
-
-const FormLinkResetPass = ({ to, text, beforeText = '', afterText = '' }) => {
+/**
+ * @param {import('@mui/material/Link').LinkProps & { to: string }} props
+ */
+const FormLink = ({ to, children, ...props }) => {
   return (
-    <div>
-      {beforeText && <Typography {...textProps}>{beforeText} </Typography>}
-      <Link component={RouterLink} to={to} variant='body2'>
-        {text}
-      </Link>
-      {afterText && <Typography {...textProps}> {afterText}</Typography>}
-    </div>
+    <Link component={RouterLink} to={to} variant='body2' {...props}>
+      {children}
+    </Link>
   )
 }
 
-FormLinkResetPass.propTypes = {
+FormLink.propTypes = {
   to: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  beforeText: PropTypes.string,
-  afterText: PropTypes.string
+  children: PropTypes.node.isRequired
 }
 
-export default FormLinkResetPass
+export default FormLink

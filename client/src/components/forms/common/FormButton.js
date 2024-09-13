@@ -8,7 +8,7 @@ const FormButton = ({ loading, children, ...props }) => {
       variant='contained'
       fullWidth
       {...props}
-      sx={{ mt: 3, mb: 2 }}
+      sx={{ my: 2 }}
     >
       {children}
     </LoadingButton>
@@ -17,8 +17,7 @@ const FormButton = ({ loading, children, ...props }) => {
 
 FormButton.propTypes = {
   loading: PropTypes.bool,
-  children: PropTypes.node,
-  ...LoadingButton.propTypes
+  children: PropTypes.node
 }
 
 export default FormButton
