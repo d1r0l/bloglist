@@ -3,19 +3,19 @@ import { useSelector } from 'react-redux'
 import Grid from '@mui/material/Grid2'
 import Stack from '@mui/material/Stack'
 import Blog from './Blog'
-import BlogForm from './BlogForm'
+import BlogForm from './forms/BlogForm'
 import Togglable from './Togglable'
 
 const Blogs = () => {
   const blogs = useSelector(state => state.blogs)
   const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
-  const blogFormRef = useRef()
+  const toggleRef = useRef()
 
   return (
     <Stack spacing={{ xs: 2, sm: 3 }} direction='column'>
-      <Togglable buttonLabel='Add new blog' ref={blogFormRef}>
-        <BlogForm blogFormRef={blogFormRef} />
+      <Togglable buttonLabel='Add new blog' ref={toggleRef}>
+        <BlogForm toggleRef={toggleRef} />
       </Togglable>
       <Grid container spacing={2}>
         {sortedBlogs.map(blog => (

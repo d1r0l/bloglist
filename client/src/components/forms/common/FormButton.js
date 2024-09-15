@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types'
 import LoadingButton from '@mui/lab/LoadingButton'
 
-const FormButton = ({ loading, children, ...props }) => {
+/**
+ * @param {import('@mui/material/Button').ButtonProps} props
+ */
+const FormButton = ({ children, sx, ...props }) => {
   return (
     <LoadingButton
-      loading={loading}
       variant='contained'
       fullWidth
       {...props}
-      sx={{ my: 2 }}
+      sx={{ my: sx?.my || 2, ...sx }}
     >
       {children}
     </LoadingButton>
@@ -16,8 +18,8 @@ const FormButton = ({ loading, children, ...props }) => {
 }
 
 FormButton.propTypes = {
-  loading: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  sx: PropTypes.object
 }
 
 export default FormButton
