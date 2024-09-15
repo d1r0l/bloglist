@@ -1,11 +1,13 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const blogSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String, required: true, unique: true },
   author: String,
   url: {
     type: String,
     required: true,
+    unique: true,
     validate: {
       validator: value => {
         return value.match(
@@ -26,6 +28,8 @@ const blogSchema = new mongoose.Schema({
     }
   ]
 })
+
+blogSchema.plugin(uniqueValidator)
 
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {

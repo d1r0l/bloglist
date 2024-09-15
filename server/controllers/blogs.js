@@ -10,25 +10,28 @@ blogsRouter.get('/', async (request, response) => {
   response.status(200).json(blogs)
 })
 
-blogsRouter.post('/', async (request, response) => {
-  if (!request.user) {
-    const error = new Error()
-    error.name = 'AuthentificationError'
-    error.message = 'User authentification failed.'
-    throw error
+blogsRouter.post('/', async (request, response, next) => {
+  try {
+    if (!request.user) {
+      const error = new Error()
+      error.name = 'AuthentificationError'
+      error.message = 'User authentification failed.'
+      throw error
+    }
+    const body = {
+      title: request.body.title,
+      author: request.body.author,
+      url: request.body.url,
+      user: request.user._id
+    }
+    const blog = new Blog(body)
+    const returnedBlog = await blog.save()
+    request.user.blogs = request.user.blogs.concat(returnedBlog._id)
+    await request.user.save()
+    response.status(201).json(returnedBlog)
+  } catch (error) {
+    next(error)
   }
-  const body = {
-    title: request.body.title,
-    author: request.body.author,
-    url: request.body.url,
-    likes: request.body.likes,
-    user: request.user._id
-  }
-  const blog = new Blog(body)
-  const returnedBlog = await blog.save()
-  request.user.blogs = request.user.blogs.concat(returnedBlog._id)
-  await request.user.save()
-  response.status(201).json(returnedBlog)
 })
 
 blogsRouter.delete('/:id', async (request, response, next) => {
@@ -50,6 +53,7 @@ blogsRouter.delete('/:id', async (request, response, next) => {
       const error = new Error()
       error.name = 'AuthentificationError'
       error.message = 'User authentification failed: invalid user id'
+      throw error
     }
   } catch (error) {
     next(error)

@@ -48,8 +48,19 @@ const errorHandler = (error, request, response, next) => {
           return response
             .status(400)
             .json({ error: 'Username is already taken' })
-        } else if (contains('email')) {
+        }
+        if (contains('email')) {
           return response.status(400).json({ error: 'Email is already taken' })
+        }
+        if (contains('url')) {
+          return response
+            .status(400)
+            .json({ error: 'Blog with this url is already exists' })
+        }
+        if (contains('title')) {
+          return response
+            .status(400)
+            .json({ error: 'Blog with this title is already exists' })
         }
         return response.status(400).json({ error: error.message })
       }
