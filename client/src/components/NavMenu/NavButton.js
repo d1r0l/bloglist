@@ -16,13 +16,13 @@ const NavButton = ({ children, linkTo = undefined, sx, ...props }) => {
         to: linkTo,
         ...(path === linkTo && { disabled: true })
       })}
+      {...props}
       sx={{
-        ...sx,
         maxWidth: { xs: 'auto', sm: 146 },
         height: 36.5,
-        flexGrow: 1
+        flexGrow: 1,
+        ...sx
       }}
-      {...props}
     >
       {children}
     </Button>
