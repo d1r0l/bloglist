@@ -33,6 +33,7 @@ module.exports = [
       }
     },
     rules: {
+      ...reactRedux.configs.recommended.rules,
       'linebreak-style': ['error', 'unix'],
       'semi': ['error', 'never'],
       'react/react-in-jsx-scope': 0,
