@@ -41,7 +41,8 @@ module.exports = [
       'no-trailing-spaces': 'error',
       'object-curly-spacing': ['error', 'always'],
       'arrow-spacing': ['error', { before: true, after: true }],
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-console': 1
     },
     settings: {
       react: { version: 'detect' }
@@ -54,6 +55,6 @@ module.exports = [
     }
   },
   {
-    ignores: ['**/build/**/*.js']
+    ignores: ['**/build/**/*.js', '**/*.cy.js', '**/*.test.js']
   }
 ]
