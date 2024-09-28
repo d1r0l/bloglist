@@ -5,7 +5,7 @@ const reactRedux = require('eslint-plugin-react-redux')
 const jest = require('eslint-plugin-jest')
 const prettier = require('eslint-plugin-prettier')
 const cypress = require('eslint-plugin-cypress/flat')
-const eslintConfigPrettier = require('eslint-config-prettier')
+const configPrettier = require('eslint-config-prettier')
 
 /**
  * @type {import("eslint").Linter.Config}
@@ -14,7 +14,7 @@ module.exports = [
   eslint.configs.recommended,
   react.configs.flat.recommended,
   cypress.configs.recommended,
-  eslintConfigPrettier,
+  configPrettier,
   {
     ...jest.configs['flat/recommended'],
     files: ['**/*.js'],
@@ -41,7 +41,6 @@ module.exports = [
       ...reactRedux.configs.recommended.rules,
       'linebreak-style': ['error', 'unix'],
       eqeqeq: 'error',
-      'arrow-spacing': ['error', { before: true, after: true }],
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-console': 1,
       'react/react-in-jsx-scope': 0,

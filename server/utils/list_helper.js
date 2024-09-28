@@ -1,16 +1,16 @@
 var _ = require('lodash')
 
 // eslint-disable-next-line no-unused-vars
-const dummy = blogs => {
+const dummy = (blogs) => {
   //..
   return 1
 }
 
-const totalLikes = blogs => {
+const totalLikes = (blogs) => {
   if (blogs.length === 0) {
     return 0
   } else {
-    const likesArray = blogs.map(blog => blog.likes)
+    const likesArray = blogs.map((blog) => blog.likes)
     const likesSum = likesArray.reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
@@ -19,7 +19,7 @@ const totalLikes = blogs => {
   }
 }
 
-const favoriteBlog = blogs => {
+const favoriteBlog = (blogs) => {
   if (blogs.length === 0) {
     return {
       title: 'No blogs was found',
@@ -27,7 +27,7 @@ const favoriteBlog = blogs => {
       likes: 0
     }
   } else {
-    const likesArray = blogs.map(blog => blog.likes)
+    const likesArray = blogs.map((blog) => blog.likes)
     const maxLikes = Math.max(...likesArray)
     const maxLikesBlogIndex = likesArray.indexOf(maxLikes)
     const favoriteBlog = {
@@ -39,18 +39,18 @@ const favoriteBlog = blogs => {
   }
 }
 
-const mostBlogs = blogs => {
+const mostBlogs = (blogs) => {
   if (blogs.length === 0) {
     return {
       author: 'No authors was found',
       blogs: 0
     }
   } else {
-    const autorsArray = blogs.map(blog => blog.author)
+    const autorsArray = blogs.map((blog) => blog.author)
     const autorsOccurences = _.countBy(autorsArray)
     const mostOccurentAuthor = _.maxBy(
       _.keys(autorsOccurences),
-      key => autorsOccurences[key]
+      (key) => autorsOccurences[key]
     )
     const occurencyCount = autorsOccurences[mostOccurentAuthor]
 
@@ -63,14 +63,14 @@ const mostBlogs = blogs => {
   }
 }
 
-const mostLikes = blogs => {
+const mostLikes = (blogs) => {
   if (blogs.length === 0) {
     return {
       author: 'No authors was found',
       likes: 0
     }
   } else {
-    const repetetiveAuthorsLikes = blogs.map(blog => ({
+    const repetetiveAuthorsLikes = blogs.map((blog) => ({
       [blog.author]: blog.likes
     }))
     const authorsLikes = _.reduce(
@@ -84,7 +84,7 @@ const mostLikes = blogs => {
     )
     const authorWithMostLikes = _.maxBy(
       _.keys(authorsLikes),
-      key => authorsLikes[key]
+      (key) => authorsLikes[key]
     )
     const likesCount = authorsLikes[authorWithMostLikes]
 

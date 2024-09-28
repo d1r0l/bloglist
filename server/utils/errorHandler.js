@@ -1,5 +1,5 @@
 const errorHandler = (error, request, response, next) => {
-  const contains = string => {
+  const contains = (string) => {
     return error.message.includes(string)
   }
 
