@@ -5,6 +5,5 @@
 module.exports = {
   semi: false,
   singleQuote: true,
-  trailingComma: 'none',
-  plugins: ['prettier-plugin-organize-imports']
+  trailingComma: 'none'
 }
