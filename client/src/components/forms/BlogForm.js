@@ -1,16 +1,17 @@
+import Box from '@mui/material/Box'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { createBlog } from '../../reducers/blogsReducer'
-import { Box } from '@mui/material'
-import regex from '../../utils/regex'
-import FormInput from './common/FormInput'
-import FormButton from './common/FormButton'
-import Form from './common/Form'
 import { setNotification } from '../../reducers/notificationReducer'
+import { activeUserSelector } from '../../selectors'
+import regex from '../../utils/regex'
+import Form from './common/Form'
+import FormButton from './common/FormButton'
+import FormInput from './common/FormInput'
 
 const BlogForm = ({ toggleRef }) => {
-  const activeUser = useSelector(state => state.activeUser)
+  const activeUser = activeUserSelector()
   const dispatch = useDispatch()
 
   const {
@@ -29,7 +30,7 @@ const BlogForm = ({ toggleRef }) => {
     }
   })
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     const newBlog = {
       title: data.title,
       author: data.author,

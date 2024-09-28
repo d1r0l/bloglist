@@ -1,28 +1,28 @@
-import { useState, useEffect } from 'react'
+import LockIcon from '@mui/icons-material/Lock'
+import Typography from '@mui/material/Typography'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { makeNotification } from '../../reducers/notificationReducer'
+import { usersSelector } from '../../selectors'
 import passResetService from '../../services/passReset'
-import FormContainer from './common/FormContainer'
-import LockIcon from '@mui/icons-material/Lock'
-import FormHeader from './common/FormHeader'
-import Form from './common/Form'
-import FormPasswordInput from './common/FormPasswordInput'
-import FormButton from './common/FormButton'
-import FormLink from './common/FormLink'
 import regex from '../../utils/regex'
+import Form from './common/Form'
+import FormButton from './common/FormButton'
+import FormContainer from './common/FormContainer'
+import FormHeader from './common/FormHeader'
+import FormLink from './common/FormLink'
 import FormLinkStack from './common/FormLinkStack'
-import Typography from '@mui/material/Typography'
+import FormPasswordInput from './common/FormPasswordInput'
 
 const ResetPassForm = () => {
-  const users = useSelector(state => state.users)
+  const users = usersSelector()
   const [showPassword, setShowPassword] = useState(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const userId = useParams().userId
-  const token = useParams().token
+  const { userId, token } = useParams()
   const {
     register,
     handleSubmit,
@@ -36,7 +36,7 @@ const ResetPassForm = () => {
 
   useEffect(() => {
     if (users.length > 0) {
-      if (!users.some(user => user.id === userId)) navigate('/notfound')
+      if (!users.some((user) => user.id === userId)) navigate('/notfound')
     }
   }, [users, userId])
 
@@ -48,20 +48,23 @@ const ResetPassForm = () => {
     setShowPasswordConfirm(!showPasswordConfirm)
   }
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     try {
-      const response = await passResetService
-        .change(userId, token, data.password)
-        .then(response => response.data)
-      console.log(response)
-      reset()
-      navigate('/signin')
-      dispatch(
-        makeNotification({
-          text: 'The password was reset successfully',
-          color: 'green'
-        })
+      const response = await passResetService.change(
+        userId,
+        token,
+        data.password
       )
+      if (response.status === 200) {
+        reset()
+        navigate('/signin')
+        dispatch(
+          makeNotification({
+            text: 'The password was reset successfully',
+            color: 'green'
+          })
+        )
+      } else throw new Error('The password reset was unsuccessful')
     } catch (error) {
       if (error.response.data.error) {
         dispatch(
@@ -114,7 +117,7 @@ const ResetPassForm = () => {
           togglePassword={togglePasswordConfirm}
           {...register('passwordConfirm', {
             required: 'Please confirm your password',
-            validate: value => {
+            validate: (value) => {
               if (value !== watch('password')) return 'Passwords do not match'
               return true
             }

@@ -1,19 +1,19 @@
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import NavButton from './NavButton'
-import { logoutUser } from '../../reducers/activeUserReducer'
-import NavStack from './NavStack'
 import Avatar from '@mui/material/Avatar'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { logoutUser } from '../../reducers/activeUserReducer'
+import { activeUserSelector } from '../../selectors'
+import NavButton from './NavButton'
+import NavStack from './NavStack'
 
-const getInitials = user => {
+const getInitials = (user) => {
   const parts = user.name.split(' ')
   if (parts.length > 1) return (parts[0][0] + parts[1][0]).toUpperCase()
   else return parts[0][0].toUpperCase()
 }
 
 const NavMenu = () => {
-  const activeUser = useSelector(state => state.activeUser)
+  const activeUser = activeUserSelector()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()

@@ -1,11 +1,14 @@
 import { Alert, Snackbar } from '@mui/material'
-import { useSelector } from 'react-redux'
+import {
+  notificationColorSelector,
+  notificationTextSelector
+} from '../selectors'
 
 let open = true
 
 const Notification = () => {
-  const text = useSelector(state => state.notification.text)
-  const color = useSelector(state => state.notification.color)
+  const text = notificationTextSelector()
+  const color = notificationColorSelector()
 
   if (text === '') return null
   else {

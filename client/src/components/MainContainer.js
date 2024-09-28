@@ -1,18 +1,18 @@
-import { useSelector } from 'react-redux'
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Users from './Users'
-import Blogs from './Blogs'
-import UserPage from './UserPage'
-import NavMenu from './NavMenu'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { activeUserSelector } from '../selectors'
 import BlogPage from './BlogPage'
-import NotFound from './NotFound'
+import Blogs from './Blogs'
+import NewPassForm from './forms/NewPassForm'
+import ResetPassForm from './forms/ResetPassForm'
 import SignInForm from './forms/SignInForm'
 import SignUpForm from './forms/SignUpForm'
-import ResetPassForm from './forms/ResetPassForm'
-import NewPassForm from './forms/NewPassForm'
+import NavMenu from './NavMenu'
+import NotFound from './NotFound'
+import UserPage from './UserPage'
+import Users from './Users'
 
 const MainContainer = () => {
-  const activeUser = useSelector(state => state.activeUser)
+  const activeUser = activeUserSelector()
 
   if (!activeUser)
     return (

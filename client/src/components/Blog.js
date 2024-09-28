@@ -1,37 +1,42 @@
-import PropTypes from 'prop-types'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { likeBlog, deleteBlog } from '../reducers/blogsReducer'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
+import Divider from '@mui/material/Divider'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import { Divider, Stack } from '@mui/material'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { deleteBlog, likeBlog } from '../reducers/blogsReducer'
+import { activeUserSelector } from '../selectors'
 import LinkButton from './common/LinkButton'
+import LinkTypographySec from './common/LinkTypographySec'
 import TwoChildrenRowStack from './common/TwoChildrenRowStack'
 
 const Blog = ({ blog }) => {
   const [visible, setVisible] = useState(false)
-  const activeUser = useSelector(state => state.activeUser)
+  const activeUser = activeUserSelector()
 
   const dispatch = useDispatch()
 
-  const toggleVisibility = event => {
+  const toggleVisibility = (event) => {
     event.preventDefault()
     setVisible(!visible)
   }
 
-  const handleLike = event => {
+  const handleLike = (event) => {
     event.preventDefault()
     dispatch(likeBlog(blog, activeUser))
   }
 
-  const handleDelete = event => {
+  const handleDelete = (event) => {
     event.preventDefault()
     dispatch(deleteBlog(blog, activeUser))
   }
 
   const showWhenVisible = { display: visible ? '' : 'none' }
+
+  if (!blog) return null
 
   return (
     <Card>
@@ -44,7 +49,12 @@ const Blog = ({ blog }) => {
             textAlign='center'
           >
             {blog.title}
-            <Typography display='inline' variant='h5' fontWeight='normal'>
+            <Typography
+              display='inline'
+              component='span'
+              variant='h5'
+              fontWeight='normal'
+            >
               {' by '}
             </Typography>
             {blog.author}
@@ -62,16 +72,9 @@ const Blog = ({ blog }) => {
             justifyContent='center'
             alignItems='center'
             flexWrap='wrap'
-            gap={1}
+            gap={0.25}
           >
-            <Typography
-              display='inline'
-              variant='button'
-              color='text.secondary'
-              sx={{ textTransform: 'none' }}
-            >
-              submitted by
-            </Typography>
+            <LinkTypographySec>Submitted by:</LinkTypographySec>
             <LinkButton linkTo={`/users/${blog.user.id}`}>
               {blog.user.name}
             </LinkButton>
@@ -82,7 +85,7 @@ const Blog = ({ blog }) => {
             style={showWhenVisible}
             type='button'
             onClick={handleDelete}
-            onMouseDown={event => event.stopPropagation()}
+            onMouseDown={(event) => event.stopPropagation()}
             color='primary'
             variant='outlined'
             size='small'

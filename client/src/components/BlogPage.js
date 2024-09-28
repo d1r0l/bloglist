@@ -1,32 +1,32 @@
+import CommentIcon from '@mui/icons-material/Comment'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom'
-import { deleteBlog, likeBlog, addComment } from '../reducers/blogsReducer'
-import {
-  Typography,
-  Link,
-  Button,
-  Box,
-  Grid,
-  Stack,
-  Card,
-  TextField
-} from '@mui/material'
-import { Favorite, Comment } from '@mui/icons-material'
+import { useDispatch } from 'react-redux'
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom'
+import { addComment, deleteBlog, likeBlog } from '../reducers/blogsReducer'
+import { activeUserSelector, blogSelector } from '../selectors'
 
 const BlogPage = () => {
-  const [comment, setComment] = useState('')
-  const activeUser = useSelector(state => state.activeUser)
   const { blogId } = useParams()
-  const blogs = useSelector(state => state.blogs)
-  const blog = blogs.find(blog => blog.id === blogId)
+  const activeUser = activeUserSelector()
+  const blog = blogSelector(blogId)
+  const [comment, setComment] = useState('')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  // TODO: Add error handling and not found redirect
   if (!blog) return null
 
-  const handleClick = async event => {
+  const handleClick = async (event) => {
     event.preventDefault()
     const dispatchSuccessful = await dispatch(
       addComment(blog, comment, activeUser)
@@ -34,13 +34,13 @@ const BlogPage = () => {
     if (dispatchSuccessful) setComment('')
   }
 
-  const handleDelete = async event => {
+  const handleDelete = async (event) => {
     event.preventDefault()
     await dispatch(deleteBlog(blog, activeUser))
     navigate('/')
   }
 
-  const handleLike = async event => {
+  const handleLike = async (event) => {
     event.preventDefault()
     dispatch(likeBlog(blog, activeUser))
   }
@@ -117,7 +117,7 @@ const BlogPage = () => {
                 height: { sm: 73 }
               }}
               onClick={handleLike}
-              startIcon={<Favorite />}
+              startIcon={<FavoriteIcon />}
             >
               {blog.likes}
             </Button>
@@ -173,7 +173,7 @@ const BlogPage = () => {
               <Stack spacing={{ xs: 1, sm: 2 }} direction='column'>
                 {blog.comments.map((comment, index) => (
                   <Box key={index} display='flex' alignItems='center'>
-                    <Comment color='secondary' />
+                    <CommentIcon color='secondary' />
                     <Typography ml={1} variant='h6'>
                       {comment}
                     </Typography>
