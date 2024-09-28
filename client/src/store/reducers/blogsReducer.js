@@ -130,6 +130,7 @@ export const deleteBlog = (selectedBlog, activeUser) => {
             color: 'green'
           })
         )
+        return true
       } catch (error) {
         if (error.response.data.error) {
           dispatch(
@@ -138,7 +139,10 @@ export const deleteBlog = (selectedBlog, activeUser) => {
         } else {
           dispatch(makeNotification({ text: 'an error occured', color: 'red' }))
         }
+        return false
       }
+    } else {
+      return false
     }
   }
 }

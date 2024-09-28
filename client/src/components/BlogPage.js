@@ -40,8 +40,8 @@ const BlogPage = () => {
 
   const handleDelete = async (event) => {
     event.preventDefault()
-    await dispatch(deleteBlog(blog, activeUser))
-    navigate('/')
+    const deleteSuccessful = await dispatch(deleteBlog(blog, activeUser))
+    if (deleteSuccessful) navigate('/')
   }
 
   const handleLike = async (event) => {
