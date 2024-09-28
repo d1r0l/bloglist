@@ -29,6 +29,7 @@ const sendEmail = async (email, subject, text) => {
       text: text
     })
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log('Email not sent: \n', error)
   }
 }

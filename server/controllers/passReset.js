@@ -60,45 +60,45 @@ passResetRouter.post('/', async (request, response, next) => {
 })
 
 passResetRouter.post('/:userId/:token', async (request, response, next) => {
-  if (!request.body.password) {
-    const error = new Error()
-    error.message =
-      'User validation failed: password: Path `password` is required.'
-    error.name = 'ValidationError'
-    throw error
-  }
-
-  if (request.body.password.length < 8) {
-    const error = new Error()
-    error.message =
-      'User validation failed: password: Path `password` is too short.'
-    error.name = 'ValidationError'
-    throw error
-  }
-
-  const user = await User.findById(request.params.userId)
-  if (!user) {
-    const error = new Error()
-    error.message =
-      'User validation failed: userId: User with this id does not exist.'
-    error.name = 'ValidationError'
-    throw error
-  }
-
-  const fetchedResetToken = await ResetToken.findOne({
-    userId: user.id,
-    token: request.params.token
-  })
-
-  if (!fetchedResetToken) {
-    const error = new Error()
-    error.message =
-      'User validation failed: token: Token is invalid or has expired.'
-    error.name = 'ValidationError'
-    throw error
-  }
-
   try {
+    if (!request.body.password) {
+      const error = new Error()
+      error.message =
+        'User validation failed: password: Path `password` is required.'
+      error.name = 'ValidationError'
+      throw error
+    }
+
+    if (request.body.password.length < 8) {
+      const error = new Error()
+      error.message =
+        'User validation failed: password: Path `password` is too short.'
+      error.name = 'ValidationError'
+      throw error
+    }
+
+    const user = await User.findById(request.params.userId)
+    if (!user) {
+      const error = new Error()
+      error.message =
+        'User validation failed: userId: User with this id does not exist.'
+      error.name = 'ValidationError'
+      throw error
+    }
+
+    const fetchedResetToken = await ResetToken.findOne({
+      userId: user.id,
+      token: request.params.token
+    })
+
+    if (!fetchedResetToken) {
+      const error = new Error()
+      error.message =
+        'User validation failed: token: Token is invalid or has expired.'
+      error.name = 'ValidationError'
+      throw error
+    }
+
     const passwordHash = await bcrypt.hash(request.body.password, SALTROUNDS)
     user.passwordHash = passwordHash
     await user.save()
