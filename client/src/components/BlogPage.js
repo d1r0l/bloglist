@@ -11,8 +11,12 @@ import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom'
-import { addComment, deleteBlog, likeBlog } from '../reducers/blogsReducer'
-import { activeUserSelector, blogSelector } from '../selectors'
+import {
+  addComment,
+  deleteBlog,
+  likeBlog
+} from '../store/reducers/blogsReducer'
+import { activeUserSelector, blogSelector } from '../store/selectors'
 
 const BlogPage = () => {
   const { blogId } = useParams()

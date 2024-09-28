@@ -5,9 +5,9 @@ import Header from './components/Header'
 import Loading from './components/Loading'
 import MainContainer from './components/MainContainer'
 import Notification from './components/Notification'
-import { initializeActiveUser } from './reducers/activeUserReducer'
-import { initializeBlogs } from './reducers/blogsReducer'
-import { initializeUsers } from './reducers/usersReducer'
+import { initializeActiveUser } from './store/reducers/activeUserReducer'
+import { initializeBlogs } from './store/reducers/blogsReducer'
+import { initializeUsers } from './store/reducers/usersReducer'
 
 const App = () => {
   const [isInitialized, setIsInitialized] = useState(false)

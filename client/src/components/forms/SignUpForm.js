@@ -3,7 +3,10 @@ import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { checkUsernameAndEmail, createUser } from '../../reducers/usersReducer'
+import {
+  checkUsernameAndEmail,
+  createUser
+} from '../../store/reducers/usersReducer'
 import { cancelTimeout, promiseWithTimeout } from '../../utils/misc'
 import regex from '../../utils/regex'
 import Form from './common/Form'

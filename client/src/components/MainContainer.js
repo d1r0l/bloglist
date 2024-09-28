@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { activeUserSelector } from '../selectors'
+import { activeUserSelector } from '../store/selectors'
 import BlogPage from './BlogPage'
 import Blogs from './Blogs'
 import NewPassForm from './forms/NewPassForm'

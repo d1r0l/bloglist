@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography'
 import { useParams } from 'react-router-dom'
-import { userSelector } from '../selectors'
+import { userSelector } from '../store/selectors'
 import BlogsGrid from './BlogsGrid'
 import Loading from './Loading'
 

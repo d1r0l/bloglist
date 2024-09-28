@@ -1,8 +1,8 @@
 import Avatar from '@mui/material/Avatar'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { logoutUser } from '../../reducers/activeUserReducer'
-import { activeUserSelector } from '../../selectors'
+import { logoutUser } from '../../store/reducers/activeUserReducer'
+import { activeUserSelector } from '../../store/selectors'
 import NavButton from './NavButton'
 import NavStack from './NavStack'
 

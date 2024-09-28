@@ -1,6 +1,6 @@
 import Stack from '@mui/material/Stack'
 import { useRef } from 'react'
-import { blogsSelector } from '../selectors'
+import { blogsSelector } from '../store/selectors'
 import BlogsGrid from './BlogsGrid'
 import BlogForm from './forms/BlogForm'
 import Togglable from './Togglable'

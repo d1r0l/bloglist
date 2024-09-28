@@ -1,8 +1,6 @@
-/* eslint-disable indent */
 import { createSlice } from '@reduxjs/toolkit'
-import usersService from '../services/users'
+import usersService from '../../services/users'
 import { makeNotification } from './notificationReducer'
-// import { makeNotification } from './notificationReducer'
 
 const initialState = []
 

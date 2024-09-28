@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar'
 import {
   notificationColorSelector,
   notificationTextSelector
-} from '../selectors'
+} from '../store/selectors'
 
 let open = true
 

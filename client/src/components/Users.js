@@ -3,7 +3,7 @@ import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid2'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { usersSelector } from '../selectors'
+import { usersSelector } from '../store/selectors'
 import LinkButton from './common/LinkButton'
 import LinkTypographySec from './common/LinkTypographySec'
 
