@@ -5,11 +5,16 @@ const reactRedux = require('eslint-plugin-react-redux')
 const jest = require('eslint-plugin-jest')
 const prettier = require('eslint-plugin-prettier')
 const cypress = require('eslint-plugin-cypress/flat')
+const eslintConfigPrettier = require('eslint-config-prettier')
 
+/**
+ * @type {import("eslint").Linter.Config}
+ */
 module.exports = [
   eslint.configs.recommended,
   react.configs.flat.recommended,
   cypress.configs.recommended,
+  eslintConfigPrettier,
   {
     ...jest.configs['flat/recommended'],
     files: ['**/*.js'],
@@ -35,14 +40,12 @@ module.exports = [
     rules: {
       ...reactRedux.configs.recommended.rules,
       'linebreak-style': ['error', 'unix'],
-      'semi': ['error', 'never'],
-      'react/react-in-jsx-scope': 0,
-      'eqeqeq': 'error',
-      'no-trailing-spaces': 'error',
-      'object-curly-spacing': ['error', 'always'],
+      eqeqeq: 'error',
       'arrow-spacing': ['error', { before: true, after: true }],
       'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      'no-console': 1
+      'no-console': 1,
+      'react/react-in-jsx-scope': 0,
+      'prettier/prettier': 'error'
     },
     settings: {
       react: { version: 'detect' }
@@ -55,6 +58,6 @@ module.exports = [
     }
   },
   {
-    ignores: ['**/build/**/*.js', '**/*.cy.js', '**/*.test.js']
+    ignores: ['**/node_modules/**', '**/build/**', '**/*.cy.js', '**/*.test.js']
   }
 ]

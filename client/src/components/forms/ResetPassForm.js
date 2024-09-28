@@ -1,17 +1,17 @@
+import MailIcon from '@mui/icons-material/Mail'
+import Typography from '@mui/material/Typography'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { makeNotification } from '../../reducers/notificationReducer'
 import passResetService from '../../services/passReset'
-import FormContainer from './common/FormContainer'
-import MailIcon from '@mui/icons-material/Mail'
-import FormHeader from './common/FormHeader'
-import Form from './common/Form'
-import FormInput from './common/FormInput'
-import FormButton from './common/FormButton'
-import FormLink from './common/FormLink'
 import regex from '../../utils/regex'
+import Form from './common/Form'
+import FormButton from './common/FormButton'
+import FormContainer from './common/FormContainer'
+import FormHeader from './common/FormHeader'
+import FormInput from './common/FormInput'
+import FormLink from './common/FormLink'
 import FormLinkStack from './common/FormLinkStack'
-import Typography from '@mui/material/Typography'
 
 const ResetPassForm = () => {
   const dispatch = useDispatch()
@@ -26,7 +26,7 @@ const ResetPassForm = () => {
     defaultValues: { email: '' }
   })
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     if (!regex.email.test(data.email)) {
       setError('email', { type: 'pattern', message: 'Invalid email' })
       return

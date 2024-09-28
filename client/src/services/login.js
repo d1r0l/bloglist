@@ -1,7 +1,7 @@
 import axios from 'axios'
 const baseUrl = '/api/login'
 
-const loginService = async credentials => {
+const loginService = async (credentials) => {
   try {
     const request = await axios.post(baseUrl, credentials)
     return request.data

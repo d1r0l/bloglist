@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogsService from '../services/blogs'
-import { addBlogToUser, removeBlogFromUser } from './usersReducer'
 import { makeNotification } from './notificationReducer'
+import { addBlogToUser, removeBlogFromUser } from './usersReducer'
 const initialState = []
 
 export const blogsSlice = createSlice({
@@ -16,13 +16,13 @@ export const blogsSlice = createSlice({
       return updatedBlogs
     },
     replaceBlog: (state, action) => {
-      const updatedBlogs = state.map(blog =>
+      const updatedBlogs = state.map((blog) =>
         blog.id === action.payload.id ? action.payload : blog
       )
       return updatedBlogs
     },
     removeBlog: (state, action) => {
-      const updatedBlogs = state.filter(blog => blog.id !== action.payload.id)
+      const updatedBlogs = state.filter((blog) => blog.id !== action.payload.id)
       return updatedBlogs
     }
   }
@@ -32,14 +32,14 @@ export const { setBlogs, appendBlog, replaceBlog, removeBlog } =
   blogsSlice.actions
 
 export const initializeBlogs = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     const fetchedBlogs = await blogsService.getAll()
     dispatch(setBlogs(fetchedBlogs))
   }
 }
 
 export const createBlog = (newBlog, activeUser) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const respondedBlog = await blogsService.createNew(
         newBlog,
@@ -82,7 +82,7 @@ export const createBlog = (newBlog, activeUser) => {
 }
 
 export const likeBlog = (selectedBlog, activeUser) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const requestBlog = {
         ...selectedBlog,
@@ -114,7 +114,7 @@ export const likeBlog = (selectedBlog, activeUser) => {
 }
 
 export const deleteBlog = (selectedBlog, activeUser) => {
-  return async dispatch => {
+  return async (dispatch) => {
     if (
       window.confirm(
         `Remove blog "${selectedBlog.title}" by "${selectedBlog.author}"?`
@@ -144,7 +144,7 @@ export const deleteBlog = (selectedBlog, activeUser) => {
 }
 
 export const addComment = (selectedBlog, newComment, activeUser) => {
-  return async dispatch => {
+  return async (dispatch) => {
     if (!newComment) {
       dispatch(
         makeNotification({ text: 'comment cannot be empty', color: 'red' })

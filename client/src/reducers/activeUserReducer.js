@@ -20,7 +20,7 @@ export const activeUserSlice = createSlice({
 export const { setActiveUser, removeActiveUser } = activeUserSlice.actions
 
 export const initializeActiveUser = () => {
-  return dispatch => {
+  return (dispatch) => {
     const storedUser = window.localStorage.getItem('loggedBloglistAppUser')
     if (storedUser) {
       const loadedUser = JSON.parse(storedUser)
@@ -29,8 +29,8 @@ export const initializeActiveUser = () => {
   }
 }
 
-export const loginUser = credentials => {
-  return async dispatch => {
+export const loginUser = (credentials) => {
+  return async (dispatch) => {
     const loggedUser = await loginService(credentials)
     if (loggedUser) {
       window.localStorage.setItem(
@@ -48,7 +48,7 @@ export const loginUser = credentials => {
 }
 
 export const logoutUser = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(removeActiveUser())
     window.localStorage.removeItem('loggedBloglistAppUser')
     dispatch(makeNotification({ text: 'Sign out successful', color: 'green' }))

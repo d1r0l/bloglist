@@ -18,19 +18,19 @@ export const usersSlice = createSlice({
       return updatedUsers
     },
     replaceUser: (state, action) => {
-      const updatedUsers = state.map(user =>
+      const updatedUsers = state.map((user) =>
         user.id === action.payload.id ? action.payload : user
       )
       return updatedUsers
     },
     removeUser: (state, action) => {
-      const updatedUsers = state.filter(user => user.id !== action.payload.id)
+      const updatedUsers = state.filter((user) => user.id !== action.payload.id)
       return updatedUsers
     },
     addBlogToUser: (state, action) => {
       const blogInfo = action.payload.blogInfo
       const activeUser = action.payload.activeUser
-      const updatedUsers = state.map(user =>
+      const updatedUsers = state.map((user) =>
         user.id !== activeUser.id
           ? user
           : {
@@ -42,15 +42,17 @@ export const usersSlice = createSlice({
     },
     removeBlogFromUser: (state, action) => {
       const selectedBlog = action.payload.selectedBlog
-      const selectedUser = state.find(user => user.id === selectedBlog.user.id)
+      const selectedUser = state.find(
+        (user) => user.id === selectedBlog.user.id
+      )
       const updatedUserBlogs = selectedUser.blogs.filter(
-        blog => blog.id !== selectedBlog.id
+        (blog) => blog.id !== selectedBlog.id
       )
       const updatedUser = {
         ...selectedUser,
         blogs: updatedUserBlogs
       }
-      const updatedUsers = state.map(user =>
+      const updatedUsers = state.map((user) =>
         user.id !== selectedUser.id ? user : updatedUser
       )
       return updatedUsers
@@ -68,14 +70,14 @@ export const {
 } = usersSlice.actions
 
 export const initializeUsers = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     const fetchedUsers = await usersService.getAll()
     dispatch(setUsers(fetchedUsers))
   }
 }
 
-export const createUser = newUser => {
-  return async dispatch => {
+export const createUser = (newUser) => {
+  return async (dispatch) => {
     try {
       const createdUser = await usersService.createNew(newUser)
       dispatch(appendUser(createdUser))
@@ -105,7 +107,7 @@ export const createUser = newUser => {
 }
 
 export const checkUsernameAndEmail = (username, email) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const response = await usersService.checkUsernameAndEmail(username, email)
       return response

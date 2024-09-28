@@ -7,7 +7,7 @@
  * @return {Promise} A promise that resolves or rejects after the specified timeout period.
  */
 export const promiseWithTimeout = (fn, timeoutIdRef = undefined, timeout) => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const timeoutId = setTimeout(async () => resolve(await fn()), timeout)
     if (timeoutIdRef !== undefined) timeoutIdRef.current = timeoutId
   })
@@ -18,7 +18,7 @@ export const promiseWithTimeout = (fn, timeoutIdRef = undefined, timeout) => {
  *
  * @param {React.MutableRefObject} timeoutIdRef - The reference to the timeout ID.
  */
-export const cancelTimeout = timeoutIdRef => {
+export const cancelTimeout = (timeoutIdRef) => {
   if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current)
   timeoutIdRef.current = null
 }

@@ -14,7 +14,7 @@ const checkUsernameAndEmail = async (username, email) => {
   return request.data
 }
 
-const createNew = async newUser => {
+const createNew = async (newUser) => {
   const request = await axios.post(baseUrl, newUser)
   return request.data
 }

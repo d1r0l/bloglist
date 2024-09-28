@@ -1,19 +1,19 @@
+import PersonIcon from '@mui/icons-material/Person'
+import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../../reducers/activeUserReducer'
-import PersonIcon from '@mui/icons-material/Person'
+import regex from '../../utils/regex'
+import Form from './common/Form'
+import FormButton from './common/FormButton'
 import FormContainer from './common/FormContainer'
 import FormHeader from './common/FormHeader'
-import Form from './common/Form'
 import FormInput from './common/FormInput'
-import FormButton from './common/FormButton'
-import FormLinkStack from './common/FormLinkStack'
 import FormLink from './common/FormLink'
+import FormLinkStack from './common/FormLinkStack'
 import FormPasswordInput from './common/FormPasswordInput'
-import regex from '../../utils/regex'
-import Typography from '@mui/material/Typography'
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -34,7 +34,7 @@ const SignInForm = () => {
     setShowPassword(!showPassword)
   }
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     const credentials = {
       username: data.username,
       password: data.password

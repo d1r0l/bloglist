@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import Stack from '@mui/material/Stack'
+import PropTypes from 'prop-types'
 
 /**
  * @param {import('@mui/material/Stack').StackProps} props

@@ -1,14 +1,14 @@
-import { useState, useRef } from 'react'
-import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { useRef, useState } from 'react'
 import logo from '../assets/logo.svg'
 
 const Header = () => {
   const [active, setActive] = useState(false)
   const timeoutId = useRef()
 
-  const startAnimation = event => {
+  const startAnimation = (event) => {
     event.preventDefault()
     if (timeoutId.current) {
       clearTimeout(timeoutId.current)

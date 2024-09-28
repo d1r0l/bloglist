@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-import Typography from '@mui/material/Typography'
-import Stack from '@mui/material/Stack'
 import Avatar from '@mui/material/Avatar'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import PropTypes from 'prop-types'
 
 const FormHeader = ({ icon, label, comment }) => {
   return (

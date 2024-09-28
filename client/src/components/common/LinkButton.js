@@ -1,6 +1,6 @@
+import Button from '@mui/material/Button'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import Button from '@mui/material/Button'
 
 /**
  * @param {import('@mui/material/Button').ButtonProps & { linkTo: string }} props

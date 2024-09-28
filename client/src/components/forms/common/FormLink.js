@@ -1,6 +1,6 @@
+import Link from '@mui/material/Link'
 import PropTypes from 'prop-types'
 import { Link as RouterLink } from 'react-router-dom'
-import Link from '@mui/material/Link'
 
 /**
  * @param {import('@mui/material/Link').LinkProps & { to: string }} props

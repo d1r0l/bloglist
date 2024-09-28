@@ -1,21 +1,20 @@
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { checkUsernameAndEmail } from '../../reducers/usersReducer'
-import { createUser } from '../../reducers/usersReducer'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { useNavigate } from 'react-router-dom'
+import { checkUsernameAndEmail, createUser } from '../../reducers/usersReducer'
+import { cancelTimeout, promiseWithTimeout } from '../../utils/misc'
+import regex from '../../utils/regex'
+import Form from './common/Form'
+import FormButton from './common/FormButton'
 import FormContainer from './common/FormContainer'
 import FormHeader from './common/FormHeader'
-import Form from './common/Form'
 import FormInput from './common/FormInput'
-import FormButton from './common/FormButton'
-import FormLink from './common/FormLink'
 import FormInputWithCheck from './common/FormInputWithCheck'
-import FormPasswordInput from './common/FormPasswordInput'
-import regex from '../../utils/regex'
-import { cancelTimeout, promiseWithTimeout } from '../../utils/misc'
+import FormLink from './common/FormLink'
 import FormLinkStack from './common/FormLinkStack'
+import FormPasswordInput from './common/FormPasswordInput'
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -57,7 +56,7 @@ const SignUpForm = () => {
   // called before isSubmitting is set to true, because observer functions
   // are not called in the same order as the fields are validated.
 
-  const preSubmit = submit => {
+  const preSubmit = (submit) => {
     return async (...args) => {
       isSubmitting.current = true
       const result = await submit(...args)
@@ -66,7 +65,7 @@ const SignUpForm = () => {
     }
   }
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     const newUser = {
       username: data.username,
       name: data.name,
@@ -104,7 +103,7 @@ const SignUpForm = () => {
         message:
           'Username must include only letters, numbers, and special characters ._-'
       },
-      validate: async value => {
+      validate: async (value) => {
         cancelTimeout(usernameValidationTimeoutId)
         setUsernameCheckState('validating')
         const check = async () => await dispatch(checkUsernameAndEmail(value))
@@ -126,7 +125,7 @@ const SignUpForm = () => {
         value: regex.email,
         message: 'Email must be a valid email address'
       },
-      validate: async value => {
+      validate: async (value) => {
         cancelTimeout(emailValidationTimeoutId)
         setEmailCheckState('validating')
         const check = async () =>
@@ -156,7 +155,7 @@ const SignUpForm = () => {
     },
     passwordConfirm: {
       required: 'Please confirm your password',
-      validate: value => {
+      validate: (value) => {
         if (value !== watch('password')) return 'Passwords do not match'
         return true
       }

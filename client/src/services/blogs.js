@@ -6,7 +6,7 @@ const getAll = async () => {
   return request.data
 }
 
-const authConfig = token => {
+const authConfig = (token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`

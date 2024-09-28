@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import LoadingButton from '@mui/lab/LoadingButton'
+import PropTypes from 'prop-types'
 
 /**
  * @param {import('@mui/material/Button').ButtonProps} props

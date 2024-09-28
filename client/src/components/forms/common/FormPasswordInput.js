@@ -1,10 +1,10 @@
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
 import PropTypes from 'prop-types'
 import { forwardRef } from 'react'
 import FormInput from './FormInput'
-import InputAdornment from '@mui/material/InputAdornment'
-import IconButton from '@mui/material/IconButton'
-import Visibility from '@mui/icons-material/Visibility'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
 const FormPasswordInput = forwardRef(
   ({ showPassword, togglePassword, ...props }, ref) => {
@@ -12,8 +12,8 @@ const FormPasswordInput = forwardRef(
       <FormInput
         type={showPassword ? 'text' : 'password'}
         ref={ref}
-        onCut={e => e.preventDefault()}
-        onCopy={e => e.preventDefault()}
+        onCut={(e) => e.preventDefault()}
+        onCopy={(e) => e.preventDefault()}
         InputProps={{
           endAdornment: (
             <InputAdornment position='end'>

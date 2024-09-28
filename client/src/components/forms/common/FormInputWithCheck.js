@@ -1,6 +1,6 @@
+import InputAdornment from '@mui/material/InputAdornment'
 import { forwardRef } from 'react'
 import FormInput from './FormInput'
-import InputAdornment from '@mui/material/InputAdornment'
 import FormInputCheckIcon from './FormInputCheckIcon'
 
 const FormInputWithCheck = forwardRef(({ checkState, ...props }, ref) => {

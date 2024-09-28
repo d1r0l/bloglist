@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react'
-import PropTypes from 'prop-types'
 import Stack from '@mui/material/Stack'
+import PropTypes from 'prop-types'
+import { useCallback, useState } from 'react'
 
 /**
  * @param {import('@mui/material/Stack').StackProps & { inner?: boolean }} props
@@ -22,7 +22,7 @@ const FormLinkStack = ({ inner = false, children, ...props }) => {
     const [height, setHeight] = useState(0)
     const [childHeight, setChildHeight] = useState(0)
     const [singleChild, setSingleChild] = useState(false)
-    const ref = useCallback(node => {
+    const ref = useCallback((node) => {
       if (!node) return
       if (node.children.length === 1) {
         setSingleChild(true)
@@ -31,7 +31,6 @@ const FormLinkStack = ({ inner = false, children, ...props }) => {
       const resizeObserver = new ResizeObserver(() => {
         setHeight(node.getBoundingClientRect().height)
         setChildHeight(node.children[0].getBoundingClientRect().height)
-        console.log(height)
       })
       resizeObserver.observe(node)
     }, [])
