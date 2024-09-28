@@ -1,4 +1,4 @@
-const { JWT_KEY } = require('../utils/config')
+const { JWT_KEY } = require('./config')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const errorHandler = require('./errorHandler')
