@@ -10,14 +10,14 @@ const BlogsGrid = ({ blogs }) => {
   if (sortedBlogs.length === 0)
     return (
       <Card>
-        <Typography variant='h5' fontWeight='bold' align='center' m={2}>
+        <Typography component='p' variant='h5' align='center' m={2}>
           No blogs submitted yet
         </Typography>
       </Card>
     )
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={{ xs: 2, sm: 3 }}>
       {sortedBlogs.map((blog) => (
         <Grid
           key={blog.id}

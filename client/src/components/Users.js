@@ -17,12 +17,7 @@ const Users = () => {
           <Card>
             <Stack p={1} gap={1}>
               <LinkButton linkTo={`/users/${user.id}`}>
-                <Typography
-                  display='inline'
-                  variant='h5'
-                  fontWeight='bold'
-                  textAlign='center'
-                >
+                <Typography variant='h5' textAlign='center'>
                   {user.name}
                 </Typography>
               </LinkButton>

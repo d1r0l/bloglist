@@ -1,16 +1,10 @@
-import Avatar from '@mui/material/Avatar'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { logoutUser } from '../../store/reducers/activeUserReducer'
 import { activeUserSelector } from '../../store/selectors'
+import NavAvatar from './NavAvatar'
 import NavButton from './NavButton'
 import NavStack from './NavStack'
-
-const getInitials = (user) => {
-  const parts = user.name.split(' ')
-  if (parts.length > 1) return (parts[0][0] + parts[1][0]).toUpperCase()
-  else return parts[0][0].toUpperCase()
-}
 
 const NavMenu = () => {
   const activeUser = activeUserSelector()
@@ -29,12 +23,7 @@ const NavMenu = () => {
         <NavButton sx={{ ml: 'auto' }} onClick={handleLogout}>
           Logout
         </NavButton>
-        <Avatar
-          sx={{ bgcolor: 'secondary.main', height: 36.5, width: 36.5 }}
-          alt={activeUser.name}
-        >
-          {getInitials(activeUser)}
-        </Avatar>
+        <NavAvatar linkTo={`/users/${activeUser.id}`} name={activeUser.name} />
       </NavStack>
       <NavStack inner>
         <NavButton linkTo='/blogs'>Blogs</NavButton>

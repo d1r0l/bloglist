@@ -12,12 +12,7 @@ const UserPage = () => {
 
   return (
     <>
-      <Typography
-        component='h2'
-        variant='h3'
-        gutterBottom
-        sx={{ fontWeight: 'bold' }}
-      >
+      <Typography variant='h2' gutterBottom>
         {user.name}
       </Typography>
       <BlogsGrid blogs={user.blogs} />

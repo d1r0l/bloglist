@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { deleteBlog, likeBlog } from '../store/reducers/blogsReducer'
+import { likeBlog } from '../store/reducers/blogsReducer'
 import { activeUserSelector } from '../store/selectors'
 import LinkButton from './common/LinkButton'
 import LinkTypographySec from './common/LinkTypographySec'
@@ -29,11 +29,6 @@ const Blog = ({ blog }) => {
     dispatch(likeBlog(blog, activeUser))
   }
 
-  const handleDelete = (event) => {
-    event.preventDefault()
-    dispatch(deleteBlog(blog, activeUser))
-  }
-
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   if (!blog) return null
@@ -42,19 +37,9 @@ const Blog = ({ blog }) => {
     <Card>
       <Stack p={1}>
         <LinkButton linkTo={`/blogs/${blog.id}`}>
-          <Typography
-            display='inline'
-            variant='h5'
-            fontWeight='bold'
-            textAlign='center'
-          >
+          <Typography component='h2' variant='h5'>
             {blog.title}
-            <Typography
-              display='inline'
-              component='span'
-              variant='h5'
-              fontWeight='normal'
-            >
+            <Typography component='span' variant='inherit' fontWeight='normal'>
               {' by '}
             </Typography>
             {blog.author}
@@ -80,26 +65,7 @@ const Blog = ({ blog }) => {
             </LinkButton>
           </Stack>
         </TwoChildrenRowStack>
-        {blog.user.id === activeUser.id && (
-          <Button
-            style={showWhenVisible}
-            type='button'
-            onClick={handleDelete}
-            onMouseDown={(event) => event.stopPropagation()}
-            color='primary'
-            variant='outlined'
-            size='small'
-          >
-            delete
-          </Button>
-        )}
-        <Stack
-          direction='row'
-          justifyContent='space-between'
-          gap={2}
-          flexGrow={1}
-          flexWrap={'wrap'}
-        >
+        <TwoChildrenRowStack gap={1}>
           <Button
             type='button'
             onClick={handleLike}
@@ -116,11 +82,10 @@ const Blog = ({ blog }) => {
             color='primary'
             variant='outlined'
             size='small'
-            sx={{ ml: 'auto' }}
           >
             {visible ? 'less' : 'more'}
           </Button>
-        </Stack>
+        </TwoChildrenRowStack>
       </Stack>
     </Card>
   )
