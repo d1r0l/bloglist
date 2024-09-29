@@ -27,7 +27,7 @@ connectToMongoose()
 
 app.use(cors())
 app.use(express.json())
-app.use(express.static(path.join(__dirname, '/build')))
+app.use(express.static(path.join(__dirname, '../build')))
 app.use(middleware.tokenExtractor)
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
@@ -35,7 +35,7 @@ app.use('/api/blogs', middleware.userExtractor, blogsRouter)
 app.use('/api/forgotpassword', passResetRouter)
 app.use('/api/*', middleware.unknownEndpoint)
 app.get('*', (request, response) => {
-  response.sendFile(path.join(__dirname + '/build/index.html'))
+  response.sendFile(path.join(__dirname + '../build/index.html'))
 })
 
 if (process.env.NODE_ENV === 'test') {
