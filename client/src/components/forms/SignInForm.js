@@ -52,7 +52,10 @@ const SignInForm = () => {
       return
     }
     reset()
-    navigate('/')
+    navigate(-2)
+    // TODO: make proper defined navigation.
+    // -2 is used instead of -1 because of
+    // unneccessary navigation to '/' after user assignment
   }
 
   return (
