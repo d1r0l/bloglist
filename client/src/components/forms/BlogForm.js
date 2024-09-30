@@ -71,7 +71,7 @@ const BlogForm = ({ toggleRef }) => {
           type='text'
           {...register('url', {
             required: 'Url is required',
-            pattern: { value: regex.link, message: 'Url must be a valid url' }
+            pattern: { value: regex.url, message: 'Url must be a valid url' }
           })}
           error={!!errors.url}
           helperText={errors.url?.message}
