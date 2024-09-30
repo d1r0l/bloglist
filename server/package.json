@@ -2,25 +2,19 @@
   "name": "bloglist",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
-    "start:test": "cross-env NODE_ENV=test node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=production node src/index.js",
+    "start:test": "cross-env NODE_ENV=test node src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "build:ui": "@powershell Remove-Item -Recurse -Force build && cd ../client && npm run build && @powershell Copy-Item build -Recurse ../server",
-    "build:deploy": "@powershell Remove-Item -Recurse -Force build && cd ../client && npm run build && @powershell Copy-Item build -Recurse ../server && cd ../server && fly deploy"
+    "lint": "eslint .",
+    "build": "rm -rf build && cd ../client && npm run build && cp -r build ../server",
+    "deploy": "rm -rf build && cd ../client && npm run build && cp -r build ../server && cd ../server && fly deploy"
   },
   "author": "Dmitrii Roshkovan",
   "license": "ISC",
-  "devDependencies": {
-    "@flydotio/dockerfile": "^0.4.3",
-    "eslint": "^8.43.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "jest": "^29.5.0",
-    "nodemon": "^2.0.22",
-    "supertest": "^6.3.3"
-  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
@@ -33,6 +27,16 @@
     "mongoose": "^7.3.0",
     "mongoose-unique-validator": "^4.0.0",
     "nodemailer": "^6.9.4"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.4.3",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jest": "^28.8.3",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
   },
   "jest": {
     "testEnvironment": "node"

@@ -1,5 +1,5 @@
-const Blog = require('../models/blog')
-const User = require('../models/user')
+const Blog = require('../src/models/blog')
+const User = require('../src/models/user')
 
 const initialBlogs = [
   {

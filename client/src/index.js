@@ -1,48 +1,22 @@
-import React from 'react'
+import CssBaseline from '@mui/material/CssBaseline'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import ReactDOM from 'react-dom/client'
-import App from './App'
 import { Provider } from 'react-redux'
-import store from './store'
-import { CssBaseline } from '@mui/material'
-import {
-  createTheme,
-  responsiveFontSizes,
-  ThemeProvider
-} from '@mui/material/styles'
-import '@fontsource/roboto/400.css'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App'
+import store from './store/store'
+import theme from './theme'
 
-let theme = createTheme({
-  components: {
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#f9f9f9'
-        }
-      }
-    }
-  },
-  palette: {
-    primary: {
-      light: '#48a871',
-      main: '#3F9664',
-      dark: '#398459',
-      contrastText: '#FFF'
-    },
-    secondary: {
-      light: '#f04c97',
-      main: '#ee007f',
-      dark: '#ed0066',
-      contrastText: '#fff'
-    }
-  }
-})
-theme = responsiveFontSizes(theme)
-
+document.getElementById('remove').remove()
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <ThemeProvider theme={theme}>
+  <>
     <CssBaseline />
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </ThemeProvider>
+  </>
 )

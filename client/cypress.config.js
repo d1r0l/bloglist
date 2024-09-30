@@ -1,10 +1,8 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   e2e: {
-    setupNodeEvents(on, config) {},
+    setupNodeEvents(_on, _config) {},
     baseUrl: 'http://localhost:3000'
   },
   env: {

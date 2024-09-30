@@ -6,8 +6,11 @@ It have separate frontend and backend server connected to Mongo.DB.
 Libraries used for frontend:
 
 - React
+- Prop-types
 - Axios
 - Redux
+- React-Router
+- React Hook Form
 - Material UI
 
 Libraries used for backend:
@@ -18,4 +21,9 @@ Libraries used for backend:
 - Bcrypt + JSONwebToken
 - Nodemailer
 
-Used database: Mongo.DB
+Database: Mongo.DB
+
+Testing libraries:
+
+- Jest
+- Cypress

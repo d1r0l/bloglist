@@ -1,66 +1,35 @@
-import { useSelector } from 'react-redux'
-import { Link as RouterLink } from 'react-router-dom'
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  Grid,
-  Typography
-} from '@mui/material'
+import Card from '@mui/material/Card'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid2'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import { usersSelector } from '../store/selectors'
+import LinkButton from './common/LinkButton'
+import LinkTypographySec from './common/LinkTypographySec'
 
 const Users = () => {
-  const users = useSelector(state => state.users)
+  const users = usersSelector()
 
   return (
-    <div>
-      <Typography
-        component='h2'
-        variant='h3'
-        gutterBottom
-        sx={{ fontWeight: 'bold' }}
-      >
-        Users
-      </Typography>
-      <Grid container>
-        {users.map(user => (
-          <Grid key={user.id} item xs={12} pb={1}>
-            <Card>
-              <CardActionArea component={RouterLink} to={`/users/${user.id}`}>
-                <CardContent sx={{ flex: 1 }}>
-                  <Grid
-                    container
-                    sx={{
-                      flexWrap: 'wrap',
-                      flexDirection: { xs: 'column', sm: 'row' },
-                      justifyContent: {
-                        sm: 'space-between'
-                      }
-                    }}
-                  >
-                    <Grid item>
-                      <Typography variant='h5'>{user.name}</Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography
-                        display='inline'
-                        variant='h5'
-                        color='text.secondary'
-                        noWrap
-                      >
-                        added blogs: &nbsp;
-                      </Typography>
-                      <Typography display='inline' variant='h5' noWrap>
-                        {user.blogs.length}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+    <Grid container spacing={2}>
+      {users.map((user) => (
+        <Grid key={user.id} size={{ xs: 12, md: 6 }}>
+          <Card>
+            <Stack p={1} gap={1}>
+              <LinkButton linkTo={`/users/${user.id}`}>
+                <Typography variant='h5' textAlign='center'>
+                  {user.name}
+                </Typography>
+              </LinkButton>
+              <Divider />
+              <LinkTypographySec textAlign='center' noWrap>
+                Blogs submitted: {user.blogs.length}
+              </LinkTypographySec>
+            </Stack>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
   )
 }
 
