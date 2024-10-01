@@ -5,40 +5,55 @@ import { useRef, useState } from 'react'
 import logo from '../assets/logo.svg'
 
 const Header = () => {
-  const [active, setActive] = useState(false)
-  const timeoutId = useRef()
+  const staticKey = 'header-button-static'
+  const animatedKeyPrefix = 'header-button-animated-'
+  const animationCounter = useRef(0)
 
-  const startAnimation = (event) => {
-    event.preventDefault()
-    if (timeoutId.current) {
-      clearTimeout(timeoutId.current)
-      timeoutId.current = null
-      setActive(false)
-    }
-    setActive(true)
+  const [isAnimated, setIsAnimated] = useState(staticKey)
+  const timeoutId = useRef(null)
+  const animationTime = 1000
+
+  const setStaticTimeout = () => {
     timeoutId.current = setTimeout(() => {
-      setActive(false)
-    }, 1000)
+      setIsAnimated(staticKey)
+      timeoutId.current = null
+    }, animationTime + 200)
+  }
+
+  const removeStaticTimeout = () => {
+    clearTimeout(timeoutId.current)
+    timeoutId.current = null
+  }
+
+  const startAnimation = () => {
+    animationCounter.current += 1
+    if (isAnimated === staticKey) {
+      setIsAnimated(animatedKeyPrefix + animationCounter.current)
+      setStaticTimeout()
+    } else {
+      removeStaticTimeout()
+      setIsAnimated(staticKey)
+      setIsAnimated(animatedKeyPrefix + animationCounter.current)
+      setStaticTimeout()
+    }
   }
 
   const animationSx = {
     '@keyframes Spin': {
-      '0%, 100%': {
+      '0%': {
         transform: 'rotate(0deg)'
       },
       '100%': {
         transform: 'rotate(1800deg)'
       }
     },
-    '&.active': {
+    '&.animated': {
       animationName: 'Spin',
-      animationDuration: '1s',
+      animationDuration: `${animationTime}ms`,
       animationTimingFunction: 'cubic-bezier(0, 0.55, 0.45, 1)',
       animationFillMode: 'forwards'
     }
   }
-
-  const animation = active ? 'active' : ''
 
   return (
     <Stack component='header' mb={{ xs: 2, sm: 3 }}>
@@ -51,8 +66,9 @@ const Header = () => {
         sx={{ mr: 'auto' }}
       >
         <Button
-          onClick={startAnimation}
-          className={animation}
+          key={isAnimated}
+          onMouseDown={startAnimation}
+          className={isAnimated === staticKey ? '' : 'animated'}
           variant='contained'
           sx={{
             ...animationSx,
