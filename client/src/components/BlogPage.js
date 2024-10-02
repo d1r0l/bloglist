@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import {
   addComment,
   deleteBlog,
@@ -17,7 +17,6 @@ import { activeUserSelector, blogSelector } from '../store/selectors'
 import LinkButton from './common/LinkButton'
 import TwoChildrenRowStack from './common/TwoChildrenRowStack'
 import FormInput from './forms/common/FormInput'
-import NotFound from './NotFound'
 
 const BlogPage = () => {
   const { blogId } = useParams()
@@ -27,9 +26,6 @@ const BlogPage = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  // TODO: Add error handling and not found redirect
-  if (!blog) return <NotFound />
 
   const handleClick = async (event) => {
     event.preventDefault()
@@ -47,8 +43,10 @@ const BlogPage = () => {
 
   const handleLike = async (event) => {
     event.preventDefault()
-    dispatch(likeBlog(blog, activeUser))
+    dispatch(likeBlog(blog))
   }
+
+  if (!blog) return <Navigate to='/404' />
 
   return (
     <>
@@ -96,7 +94,7 @@ const BlogPage = () => {
             >
               {blog.likes}
             </Button>
-            {blog.user.id === activeUser.id && (
+            {activeUser && blog.user.id === activeUser.id && (
               <Button
                 variant='outlined'
                 onClick={handleDelete}
@@ -112,24 +110,30 @@ const BlogPage = () => {
           <Typography component='h3' variant='h4' pl={1}>
             Comments:
           </Typography>
-          <Stack alignItems='center'>
-            <FormInput
-              type='text'
-              name='comment'
-              value={comment}
-              onChange={({ target }) => setComment(target.value)}
-              label='Write your comment here...'
-              sx={{ mt: 0 }}
-            />
-            <Button
-              variant='outlined'
-              type='submit'
-              onClick={handleClick}
-              fullWidth
-            >
-              add comment
-            </Button>
-          </Stack>
+          {activeUser ? (
+            <Stack alignItems='center'>
+              <FormInput
+                type='text'
+                name='comment'
+                value={comment}
+                onChange={({ target }) => setComment(target.value)}
+                label='Write your comment here...'
+                sx={{ mt: 0 }}
+              />
+              <Button
+                variant='outlined'
+                type='submit'
+                onClick={handleClick}
+                fullWidth
+              >
+                add comment
+              </Button>
+            </Stack>
+          ) : (
+            <LinkButton linkTo='/signin'>
+              Please sign in to add comments
+            </LinkButton>
+          )}
           {blog.comments.length === 0 ? (
             <Typography ml={1} variant='h6' color='text.secondary'>
               Comment section is empty. Make a first comment!

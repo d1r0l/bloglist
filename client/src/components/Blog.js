@@ -8,14 +8,12 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { likeBlog } from '../store/reducers/blogsReducer'
-import { activeUserSelector } from '../store/selectors'
 import LinkButton from './common/LinkButton'
 import LinkTypographySec from './common/LinkTypographySec'
 import TwoChildrenRowStack from './common/TwoChildrenRowStack'
 
 const Blog = ({ blog }) => {
   const [visible, setVisible] = useState(false)
-  const activeUser = activeUserSelector()
 
   const dispatch = useDispatch()
 
@@ -26,7 +24,7 @@ const Blog = ({ blog }) => {
 
   const handleLike = (event) => {
     event.preventDefault()
-    dispatch(likeBlog(blog, activeUser))
+    dispatch(likeBlog(blog))
   }
 
   const showWhenVisible = { display: visible ? '' : 'none' }

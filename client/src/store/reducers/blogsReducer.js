@@ -81,7 +81,7 @@ export const createBlog = (newBlog, activeUser) => {
   }
 }
 
-export const likeBlog = (selectedBlog, activeUser) => {
+export const likeBlog = (selectedBlog) => {
   return async (dispatch) => {
     try {
       const requestBlog = {
@@ -89,10 +89,7 @@ export const likeBlog = (selectedBlog, activeUser) => {
         likes: selectedBlog.likes + 1,
         user: selectedBlog.user.id
       }
-      const respondedBlog = await blogsService.addLike(
-        requestBlog,
-        activeUser.token
-      )
+      const respondedBlog = await blogsService.addLike(requestBlog)
       const updatedBlog = { ...respondedBlog, user: selectedBlog.user }
       dispatch(replaceBlog(updatedBlog))
       dispatch(

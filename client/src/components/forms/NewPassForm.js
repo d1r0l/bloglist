@@ -1,9 +1,9 @@
 import LockIcon from '@mui/icons-material/Lock'
 import Typography from '@mui/material/Typography'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import passResetService from '../../services/passReset'
 import { makeNotification } from '../../store/reducers/notificationReducer'
 import { usersSelector } from '../../store/selectors'
@@ -33,12 +33,6 @@ const ResetPassForm = () => {
     mode: 'onChange',
     defaultValues: { password: '', passwordConfirm: '' }
   })
-
-  useEffect(() => {
-    if (users.length > 0) {
-      if (!users.some((user) => user.id === userId)) navigate('/notfound')
-    }
-  }, [users, userId])
 
   const togglePassword = () => {
     setShowPassword(!showPassword)
@@ -83,6 +77,8 @@ const ResetPassForm = () => {
       }
     }
   }
+
+  if (!users.some((user) => user.id === userId)) return <Navigate to='/404' />
 
   return (
     <FormContainer>

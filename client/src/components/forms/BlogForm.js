@@ -1,5 +1,7 @@
 import Box from '@mui/material/Box'
-import PropTypes from 'prop-types'
+import Button from '@mui/material/Button'
+import Collapse from '@mui/material/Collapse'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../../store/reducers/blogsReducer'
@@ -10,7 +12,8 @@ import Form from './common/Form'
 import FormButton from './common/FormButton'
 import FormInput from './common/FormInput'
 
-const BlogForm = ({ toggleRef }) => {
+const BlogForm = () => {
+  const [expanded, setExpanded] = useState(false)
   const activeUser = activeUserSelector()
   const dispatch = useDispatch()
 
@@ -38,7 +41,7 @@ const BlogForm = ({ toggleRef }) => {
     }
     const submitSuccessful = await dispatch(createBlog(newBlog, activeUser))
     if (submitSuccessful) {
-      if (toggleRef) toggleRef.current.toggleVisibility()
+      setExpanded(false)
       reset()
     } else {
       setError('title', { type: 'custom' })
@@ -48,45 +51,57 @@ const BlogForm = ({ toggleRef }) => {
     }
   }
 
+  if (!activeUser) return null
+
   return (
-    <Box component='main'>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <FormInput
-          label='Title'
-          type='text'
-          {...register('title', { required: 'Title is required' })}
-          error={!!errors.title}
-          helperText={errors.title?.message}
-          autoFocus
-        />
-        <FormInput
-          label='Author'
-          type='text'
-          {...register('author', { required: 'Author is required' })}
-          error={!!errors.author}
-          helperText={errors.author?.message}
-        />
-        <FormInput
-          label='URL'
-          type='text'
-          {...register('url', {
-            required: 'Url is required',
-            pattern: { value: regex.url, message: 'Url must be a valid url' }
-          })}
-          error={!!errors.url}
-          helperText={errors.url?.message}
-        />
-        <br />
-        <FormButton type='submit' loading={isSubmitting} sx={{ mb: 0 }}>
-          {'Create'}
-        </FormButton>
-      </Form>
+    <Box>
+      <Collapse in={expanded}>
+        <Box component='main' mb={{ xs: 2, sm: 3 }}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <FormInput
+              label='Title'
+              type='text'
+              {...register('title', { required: 'Title is required' })}
+              error={!!errors.title}
+              helperText={errors.title?.message}
+              autoFocus
+            />
+            <FormInput
+              label='Author'
+              type='text'
+              {...register('author', { required: 'Author is required' })}
+              error={!!errors.author}
+              helperText={errors.author?.message}
+            />
+            <FormInput
+              label='URL'
+              type='text'
+              {...register('url', {
+                required: 'Url is required',
+                pattern: {
+                  value: regex.url,
+                  message: 'Url must be a valid url'
+                }
+              })}
+              error={!!errors.url}
+              helperText={errors.url?.message}
+            />
+            <br />
+            <FormButton type='submit' loading={isSubmitting} sx={{ mb: 0 }}>
+              Submit
+            </FormButton>
+          </Form>
+        </Box>
+      </Collapse>
+      <Button
+        onClick={() => setExpanded(!expanded)}
+        variant='outlined'
+        fullWidth
+      >
+        {expanded ? 'Cancel' : 'Add new blog'}
+      </Button>
     </Box>
   )
-}
-
-BlogForm.propTypes = {
-  toggleRef: PropTypes.object
 }
 
 export default BlogForm

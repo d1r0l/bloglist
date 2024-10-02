@@ -1,14 +1,13 @@
 import Typography from '@mui/material/Typography'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { userSelector } from '../store/selectors'
 import BlogsGrid from './BlogsGrid'
-import Loading from './Loading'
 
 const UserPage = () => {
   const { userId } = useParams()
   const user = userSelector(userId)
 
-  if (!user) return <Loading />
+  if (!user) return <Navigate to='/404' />
 
   return (
     <>

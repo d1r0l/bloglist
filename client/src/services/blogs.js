@@ -20,12 +20,8 @@ const createNew = async (newBlog, token) => {
   return request.data
 }
 
-const addLike = async (blog, token) => {
-  const request = await axios.put(
-    `${baseUrl}/${blog.id}`,
-    blog,
-    authConfig(token)
-  )
+const addLike = async (blog) => {
+  const request = await axios.put(`${baseUrl}/${blog.id}`, blog)
   return request.data
 }
 
