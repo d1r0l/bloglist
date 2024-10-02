@@ -19,4 +19,9 @@ const createNew = async (newUser) => {
   return request.data
 }
 
-export default { getAll, createNew, checkUsernameAndEmail }
+const verifyUser = async (userId, token) => {
+  const request = await axios.get(`${baseUrl}/${userId}/${token}`)
+  return request.data
+}
+
+export default { getAll, checkUsernameAndEmail, createNew, verifyUser }

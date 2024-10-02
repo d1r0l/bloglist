@@ -10,6 +10,7 @@ import NavMenu from './NavMenu'
 import NotFound from './NotFound'
 import UserPage from './UserPage'
 import Users from './Users'
+import UserVerification from './UserVerification'
 
 const MainContainer = () => {
   const activeUser = activeUserSelector()
@@ -29,6 +30,7 @@ const MainContainer = () => {
             <Route path='/signup' element={<Navigate to='/blogs' />} />
             <Route path='/signin' element={<Navigate to='/blogs' />} />
             <Route path='/resetpassword/*' element={<Navigate to='/blogs' />} />
+            <Route path='/users/:userId/*' element={<UserPage />} />
           </>
         ) : (
           <>
@@ -38,6 +40,10 @@ const MainContainer = () => {
             <Route
               path='/resetpassword/:userId/:token'
               element={<NewPassForm />}
+            />
+            <Route
+              path='/users/:userId/:token'
+              element={<UserVerification />}
             />
           </>
         )}
