@@ -8,6 +8,7 @@ import { createBlog } from '../../store/reducers/blogsReducer'
 import { setNotification } from '../../store/reducers/notificationReducer'
 import { activeUserSelector } from '../../store/selectors'
 import regex from '../../utils/regex'
+import LinkButton from '../common/LinkButton'
 import Form from './common/Form'
 import FormButton from './common/FormButton'
 import FormInput from './common/FormInput'
@@ -51,7 +52,10 @@ const BlogForm = () => {
     }
   }
 
-  if (!activeUser) return null
+  if (!activeUser)
+    return (
+      <LinkButton linkTo='/signin'>Please sign in to submit a blog</LinkButton>
+    )
 
   return (
     <Box>
