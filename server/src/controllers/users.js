@@ -100,6 +100,10 @@ usersRouter.get('/:userId/:token', async (request, response, next) => {
     }
     user.$set({ token: undefined, createdAt: undefined })
     user.save()
+    const emailBody =
+      `Email verification on ${BASE_URL} with username ${user.username} was successful.` +
+      `You can now sign in: ${BASE_URL}/signin`
+    await sendEmail(user.email, 'Reset your password', emailBody)
     response.status(200).json(user)
   } catch (error) {
     next(error)

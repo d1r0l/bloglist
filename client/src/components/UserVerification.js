@@ -1,6 +1,6 @@
 import NewReleasesIcon from '@mui/icons-material/NewReleases'
 import VerifiedIcon from '@mui/icons-material/Verified'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link as RouterLink, useParams } from 'react-router-dom'
 import { verifyUser } from '../store/reducers/usersReducer'
@@ -13,16 +13,24 @@ const UserVerification = () => {
   const [isVerifying, setIsVerifying] = useState(true)
   const [isSuccessful, setIsSuccessful] = useState(false)
   const { userId, token } = useParams()
+  const timeoutId = useRef(null)
   const dispatch = useDispatch()
 
-  const verify = async () => {
-    const isSuccessful = await dispatch(verifyUser(userId, token))
-    setIsSuccessful(isSuccessful)
-    setIsVerifying(false)
-  }
-
   useEffect(() => {
-    verify()
+    const verify = async () => {
+      const isSuccessful = await dispatch(verifyUser(userId, token))
+      setIsSuccessful(isSuccessful)
+      setIsVerifying(false)
+    }
+
+    timeoutId.current = setTimeout(verify, 1000)
+
+    return () => {
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current)
+        timeoutId.current = null
+      }
+    }
   }, [])
 
   if (isVerifying) return <Loading />
