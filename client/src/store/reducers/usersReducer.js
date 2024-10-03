@@ -81,7 +81,7 @@ export const createUser = (newUser) => {
       dispatch(appendUser(createdUser))
       dispatch(
         makeNotification({
-          text: "You've successfully signed up!",
+          text: "You've successfully signed up! Please check your email and verify your account.",
           color: 'green'
         })
       )
@@ -95,6 +95,30 @@ export const createUser = (newUser) => {
         dispatch(
           makeNotification({
             text: 'An error occurred while signing up',
+            color: 'red'
+          })
+        )
+      }
+      return false
+    }
+  }
+}
+
+export const verifyUser = (userId, token) => {
+  return async (dispatch) => {
+    try {
+      const verifiedUser = await usersService.verifyUser(userId, token)
+      dispatch(replaceUser(verifiedUser))
+      return true
+    } catch (error) {
+      if (error.response.data.error) {
+        dispatch(
+          makeNotification({ text: error.response.data.error, color: 'red' })
+        )
+      } else {
+        dispatch(
+          makeNotification({
+            text: 'An error occurred while verifying user',
             color: 'red'
           })
         )

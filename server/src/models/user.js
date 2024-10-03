@@ -16,7 +16,13 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog'
     }
-  ]
+  ],
+  token: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 86400
+  }
 })
 
 userSchema.plugin(uniqueValidator)

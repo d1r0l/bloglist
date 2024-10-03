@@ -1,5 +1,5 @@
 import Container from '@mui/material/Container'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Header from './components/Header'
 import Loading from './components/Loading'
@@ -12,16 +12,24 @@ import { initializeUsers } from './store/reducers/usersReducer'
 const App = () => {
   const [isInitialized, setIsInitialized] = useState(false)
   const dispatch = useDispatch()
-
-  const initializeState = async () => {
-    await dispatch(initializeBlogs())
-    await dispatch(initializeActiveUser())
-    await dispatch(initializeUsers())
-    setIsInitialized(true)
-  }
+  const timeoutId = useRef(null)
 
   useEffect(() => {
-    initializeState()
+    const initializeState = async () => {
+      await dispatch(initializeBlogs())
+      await dispatch(initializeActiveUser())
+      await dispatch(initializeUsers())
+      setIsInitialized(true)
+    }
+
+    timeoutId.current = setTimeout(initializeState, 200)
+
+    return () => {
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current)
+        timeoutId.current = null
+      }
+    }
   }, [])
 
   return (
