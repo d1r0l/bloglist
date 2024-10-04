@@ -1,5 +1,4 @@
 import PersonIcon from '@mui/icons-material/Person'
-import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -13,6 +12,7 @@ import FormHeader from './common/FormHeader'
 import FormInput from './common/FormInput'
 import FormLink from './common/FormLink'
 import FormLinkStack from './common/FormLinkStack'
+import FormLinkTypo from './common/FormLinkTypo'
 import FormPasswordInput from './common/FormPasswordInput'
 
 const SignInForm = () => {
@@ -84,7 +84,7 @@ const SignInForm = () => {
       <FormLinkStack>
         <FormLink to='/resetpassword'>Forgot password?</FormLink>
         <FormLinkStack inner>
-          <Typography variant='label'>{"Don't have an account?"}</Typography>
+          <FormLinkTypo>{"Don't have an account?"}</FormLinkTypo>
           <FormLink to='/signup'>{'Sign Up'}</FormLink>
         </FormLinkStack>
       </FormLinkStack>

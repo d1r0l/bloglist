@@ -11,8 +11,8 @@ import theme from './theme'
 document.getElementById('remove').remove()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <CssBaseline />
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Provider store={store}>
         <BrowserRouter>
           <App />

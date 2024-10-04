@@ -13,7 +13,12 @@ const NavAvatar = ({ name, linkTo }) => {
   return (
     <Link component={RouterLink} to={linkTo} sx={{ textDecoration: 'none' }}>
       <Avatar
-        sx={{ bgcolor: 'secondary.main', height: 36.5, width: 36.5 }}
+        sx={{
+          bgcolor: 'secondary.main',
+          color: 'secondary.contrastText',
+          height: 36.5,
+          width: 36.5
+        }}
         alt={name}
       >
         {getInitials(name)}

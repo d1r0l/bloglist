@@ -1,5 +1,4 @@
 import MailIcon from '@mui/icons-material/Mail'
-import Typography from '@mui/material/Typography'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import passResetService from '../../services/passReset'
@@ -12,6 +11,7 @@ import FormHeader from './common/FormHeader'
 import FormInput from './common/FormInput'
 import FormLink from './common/FormLink'
 import FormLinkStack from './common/FormLinkStack'
+import FormLinkTypo from './common/FormLinkTypo'
 
 const ResetPassForm = () => {
   const dispatch = useDispatch()
@@ -84,7 +84,7 @@ const ResetPassForm = () => {
       <FormLinkStack>
         <FormLink to='/signin'>Return to Sign In</FormLink>
         <FormLinkStack inner>
-          <Typography variant='label'>Want to create new account?</Typography>
+          <FormLinkTypo>Want to create new account?</FormLinkTypo>
           <FormLink to='/signup'>Sign Up</FormLink>
         </FormLinkStack>
       </FormLinkStack>

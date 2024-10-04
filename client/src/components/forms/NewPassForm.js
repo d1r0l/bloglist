@@ -1,5 +1,4 @@
 import LockIcon from '@mui/icons-material/Lock'
-import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -14,6 +13,7 @@ import FormContainer from './common/FormContainer'
 import FormHeader from './common/FormHeader'
 import FormLink from './common/FormLink'
 import FormLinkStack from './common/FormLinkStack'
+import FormLinkTypo from './common/FormLinkTypo'
 import FormPasswordInput from './common/FormPasswordInput'
 
 const ResetPassForm = () => {
@@ -128,7 +128,7 @@ const ResetPassForm = () => {
       <FormLinkStack>
         <FormLink to='/signin'>Return to Sign In</FormLink>
         <FormLinkStack inner>
-          <Typography variant='label'>Want to create new account?</Typography>
+          <FormLinkTypo>Want to create new account?</FormLinkTypo>
           <FormLink to='/signup'>Sign Up</FormLink>
         </FormLinkStack>
       </FormLinkStack>

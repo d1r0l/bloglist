@@ -20,7 +20,12 @@ const FormHeader = ({ icon, label, comment }) => {
         </Typography>
       </Stack>
       {comment && (
-        <Typography variant='subtitle1' align='center' gutterBottom>
+        <Typography
+          variant='body1'
+          color='text.secondary'
+          align='center'
+          gutterBottom
+        >
           {comment}
         </Typography>
       )}

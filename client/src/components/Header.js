@@ -3,6 +3,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useRef, useState } from 'react'
 import logo from '../assets/logo.svg'
+import ThemeSwitch from './ThemeSwitch'
 
 const Header = () => {
   const staticKey = 'header-button-static'
@@ -56,7 +57,14 @@ const Header = () => {
   }
 
   return (
-    <Stack component='header' mb={{ xs: 2, sm: 3 }}>
+    <Stack
+      direction='row'
+      component='header'
+      flexWrap='wrap'
+      gap={{ xs: 2, sm: 3 }}
+      mb={{ xs: 2, sm: 3 }}
+      justifyContent='space-around'
+    >
       <Stack
         direction='row'
         justifyContent='center'
@@ -89,6 +97,7 @@ const Header = () => {
           Bloglist
         </Typography>
       </Stack>
+      <ThemeSwitch />
     </Stack>
   )
 }
