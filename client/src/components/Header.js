@@ -3,7 +3,6 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useRef, useState } from 'react'
 import logo from '../assets/logo.svg'
-import ThemeSwitch from './ThemeSwitch'
 
 const Header = () => {
   const staticKey = 'header-button-static'
@@ -97,7 +96,6 @@ const Header = () => {
           Bloglist
         </Typography>
       </Stack>
-      <ThemeSwitch />
     </Stack>
   )
 }

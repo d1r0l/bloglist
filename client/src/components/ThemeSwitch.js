@@ -8,9 +8,9 @@ import PropTypes from 'prop-types'
 const ThemeSwitch = ({ sx, ...props }) => {
   const { mode, setMode } = useColorScheme()
   const icons = {
-    system: <AutoModeIcon sx={{ fontSize: { xs: '1.5rem', sm: '3rem' } }} />,
-    light: <LightModeIcon sx={{ fontSize: { xs: '1.5rem', sm: '3rem' } }} />,
-    dark: <DarkModeIcon sx={{ fontSize: { xs: '1.5rem', sm: '3rem' } }} />
+    system: <AutoModeIcon />,
+    light: <LightModeIcon />,
+    dark: <DarkModeIcon />
   }
 
   const cycleTheme = () => {
@@ -29,13 +29,10 @@ const ThemeSwitch = ({ sx, ...props }) => {
   return (
     <IconButton
       onClick={cycleTheme}
-      aria-description='Switch theme'
       variant='contained'
+      title='Switch theme'
       sx={{
-        width: { xs: 36.5, sm: 73 },
-        height: { xs: 36.5, sm: 73 },
-        minWidth: 'unset',
-        minHeight: 'unset',
+        float: 'right',
         ...sx
       }}
       {...props}

@@ -8,6 +8,13 @@ import App from './App'
 import store from './store/store'
 import theme from './theme'
 
+if (
+  localStorage.getItem('mui-mode') === 'dark' ||
+  window.matchMedia('(prefers-color-scheme: dark)').matches
+) {
+  document.body.classList.add('dark-fallback')
+}
+
 document.getElementById('remove').remove()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
