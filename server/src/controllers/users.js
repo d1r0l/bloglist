@@ -68,7 +68,7 @@ usersRouter.post('/', async (request, response, next) => {
       link +
       '\n\n' +
       'If you did not request this, please ignore this email and account creation will be automatically cancelled.\n'
-    await sendEmail(request.body.email, 'Reset your password', emailBody)
+    await sendEmail(request.body.email, 'Verify your email', emailBody)
     response.status(201).json(savedUser)
   } catch (error) {
     next(error)
@@ -103,7 +103,7 @@ usersRouter.get('/:userId/:token', async (request, response, next) => {
     const emailBody =
       `Email verification on ${BASE_URL} with username ${user.username} was successful.` +
       `You can now sign in: ${BASE_URL}/signin`
-    await sendEmail(user.email, 'Reset your password', emailBody)
+    await sendEmail(user.email, 'Verification success', emailBody)
     response.status(200).json(user)
   } catch (error) {
     next(error)
